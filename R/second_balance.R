@@ -25,6 +25,9 @@ find_two_nearest_balances <- function(vect_ilr, psi,  vect_ilr_2 = vect_ilr){
 
   if (length(features_not_in_balance) >0){
     best_bal_other <- find_nearest_balance_clr(features_not_in_balance)
+    if (!is.na(best_bal_other)){
+      balances[["other"]] = best_bal_other
+    }
     first_bal_mean_clr <- mean(clr_vect[c(first_bal$num, first_bal$den)])
     n_first <- length(c(first_bal$num, first_bal$den))
     replacing_features <- rep(first_bal_mean_clr,n_first)
