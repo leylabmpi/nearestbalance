@@ -14,20 +14,15 @@ find_two_nearest_balances <- function(vect_ilr, psi,  vect_ilr_2 = vect_ilr){
   best_bal_neg <- find_nearest_balance_clr(clr_vect[first_bal$den])
   balances <- list(pos = best_bal_pos, neg = best_bal_neg)
   balances <- balances[!is.na(balances)]
-  # the impact in balances is unrelevant
-  balances <- lapply(balances, function(bal){
-    r <- length(bal$num)
-    s <- length(bal$den)
-    proj <- sqrt(r*s/(r+s))*(mean(clr_vect[bal$num]) - mean(clr_vect[bal$den]))
-    bal$impact <-  drop(proj**2/(clr_vect %*% clr_vect))
-    bal
-  })
+
 
   if (length(features_not_in_balance) >0){
+    # other taxa
     best_bal_other <- find_nearest_balance_clr(features_not_in_balance)
-    if (!is.na(best_bal_other)){
-      balances[["other"]] = best_bal_other
-    }
+    balances[["other"]] = best_bal_other
+
+    # mixed balance
+    balances <- balances[!is.na(balances)]
     first_bal_mean_clr <- mean(clr_vect[c(first_bal$num, first_bal$den)])
     n_first <- length(c(first_bal$num, first_bal$den))
     replacing_features <- rep(first_bal_mean_clr,n_first)
@@ -56,6 +51,16 @@ find_two_nearest_balances <- function(vect_ilr, psi,  vect_ilr_2 = vect_ilr){
     balances[["mixed_a"]] <- ll_best$a
     balances[["mixed_b"]] <- ll_best$b
   }
+
+  # the impact in balances is unrelevant
+  balances <- lapply(balances, function(bal){
+    r <- length(bal$num)
+    s <- length(bal$den)
+    proj <- sqrt(r*s/(r+s))*(mean(clr_vect[bal$num]) - mean(clr_vect[bal$den]))
+    bal$impact <-  drop(proj**2/(clr_vect %*% clr_vect))
+    bal
+  })
+
   impacts <- sapply(balances, function(bal) bal$impact)
   best_bal <- balances[[which.max(impacts)]]
   list(b1 = first_bal, b2 = best_bal)
