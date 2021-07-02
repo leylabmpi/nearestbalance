@@ -1,4 +1,15 @@
-find_nearest_balance_clr <- function(clr_vect){
+library(balance)
+
+balance_to_sbp <- function(parts_names, num, den, balance_name = "bal"){
+  bal_spb = data.frame(bal = rep(0, length(parts_names)),
+                       row.names = parts_names)
+  bal_spb[num,] <- 1
+  bal_spb[den,] <- -1
+  colnames(bal_spb) <- balance_name
+  return(bal_spb)
+}
+
+find_nearest_balance_clr <- function(clr_vect, balance_name = "bal"){
   D <- length(clr_vect)
   if (D < 2) return(NA)
 
@@ -20,16 +31,21 @@ find_nearest_balance_clr <- function(clr_vect){
   pos <- clr_vect_pos[1:r_s[1,"row"]]
   neg <- clr_vect_neg[1:r_s[1,"col"]]
   impact <- impacts[r_s[1,"row"], r_s[1,"col"]]
+  coord <- proj_vals[r_s[1,"row"], r_s[1,"col"]]
+
+  bal_spb = balance_to_sbp(names(clr_vect), names(pos),
+                           names(neg), balance_name)
 
   return(list(
     num = names(pos),
     den = names(neg),
-    impact = impact
+    impact = impact,
+    sbp = bal_spb,
+    coord = coord
   ))
 }
 
-
-find_nearest_balance <- function(ilr_vector, psi){
+find_nearest_balance <- function(ilr_vector, psi, balance_name = "bal"){
   clr_vect <- drop(ilr_vector  %*% psi)
   names(clr_vect) <- colnames(psi)
   find_nearest_balance_clr(clr_vect)
@@ -53,9 +69,13 @@ nearest_balances_list <- function(clr_vect, plot= F){
     proj_vals_n <- sapply(1:(n-1), function(i) proj_vals[i,n-i])
     i <- which.max(proj_vals_n)
     proj <- proj_vals[i, n-i]
-    list(num=names(clr_vect_pos[1:i]),
-         den=names(clr_vect_neg[1:(n-i)]),
-         impact = proj**2/clr_norm)
+    num_i = names(clr_vect_pos[1:i])
+    den_i = names(clr_vect_neg[1:(n-i)])
+    bal_spb = balance_to_sbp(names(clr_vect), num_i, den_i)
+    list(num=num_i,
+         den=den_i,
+         impact = proj**2/clr_norm,
+         sbp = bal_sbp)
   })
   names(best_balances) <-  paste0("n=",2:D)
   if (plot){

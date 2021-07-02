@@ -15,11 +15,15 @@ find_nearest_balance(ilr_vector, psi)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{ilr_vector}{
-  coordinates of vector in ilr coordinates
+  coordinates of a vector in an ILR space
 %%     ~~Describe \code{ilr_vector} here~~
 }
   \item{psi}{
-  contrast matrix of the ilr system
+  contrast matrix of the ILR space
+%%     ~~Describe \code{psi} here~~
+}
+\item{balance_name}{
+  name of the found balance in sbp
 %%     ~~Describe \code{psi} here~~
 }
 }
@@ -28,6 +32,7 @@ find_nearest_balance(ilr_vector, psi)
   \item{num}{components in the numerator of the balance}
   \item{den}{components in the  denominator of the balance}
   \item{impact}{the impact of the nearest balance. It is calculated as squared ratio between lenght of the \code{ilr_vect} projection on the balancing element and length of \code{ilr_vect} itself.}
+  \item{sbp}{partition of components as input to \code{balance::balance.fromSBP()}}
 }
 %%  ~Describe the value returned
 %%  If it is a LIST, use

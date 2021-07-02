@@ -33,6 +33,10 @@ find_two_nearest_balances(vect_ilr, psi,  vect_ilr_2 = vect_ilr)
 \value{
 \item{b1}{first balance}
 \item{b2}{second balance}
+\item{sbp}{partition of components as input to \code{balance::balance.fromSBP()}}
+\item{impacts}{impacts of the balances. Impact is calculated as squared ratio between lenght of the \code{ilr_vect} projection on the balancing element and length of \code{ilr_vect} itself. }
+\item{coord}{coordinates of \code{ilr_vect} in ILR coordinates associated
+  with the balances}
 %%  ~Describe the value returned
 %%  If it is a LIST, use
 %%  \item{comp1 }{Description of 'comp1'}

@@ -1,6 +1,6 @@
 find_two_nearest_balances <- function(vect_ilr, psi,  vect_ilr_2 = vect_ilr){
   #find first balance
-  first_bal <- find_nearest_balance(vect_ilr, psi)
+  first_bal <- find_nearest_balance(vect_ilr, psi, "b1")
 
   # find second balance
   clr_vect <- drop(vect_ilr_2 %*% psi)
@@ -10,15 +10,15 @@ find_two_nearest_balances <- function(vect_ilr, psi,  vect_ilr_2 = vect_ilr){
                                               c(first_bal$num, first_bal$den))]
   features_not_in_balance <- sort(features_not_in_balance, decreasing = T)
 
-  best_bal_pos <- find_nearest_balance_clr(clr_vect[first_bal$num])
-  best_bal_neg <- find_nearest_balance_clr(clr_vect[first_bal$den])
+  best_bal_pos <- find_nearest_balance_clr(clr_vect[first_bal$num], "b2")
+  best_bal_neg <- find_nearest_balance_clr(clr_vect[first_bal$den], "b2")
   balances <- list(pos = best_bal_pos, neg = best_bal_neg)
   balances <- balances[!is.na(balances)]
 
 
   if (length(features_not_in_balance) >0){
     # other taxa
-    best_bal_other <- find_nearest_balance_clr(features_not_in_balance)
+    best_bal_other <- find_nearest_balance_clr(features_not_in_balance, "b2")
     balances[["other"]] = best_bal_other
 
     # mixed balance
@@ -45,8 +45,9 @@ find_two_nearest_balances <- function(vect_ilr, psi,  vect_ilr_2 = vect_ilr){
       r_s <- drop(which(proj_vals == best_proj, arr.ind = T))
       pos <- x$features[1:r_s["row"]]
       neg <- x$features[D:(D - r_s["col"]+1)]
-      impact <- best_proj **2/(clr_vect %*% clr_vect)
-      list(num = names(pos),den = names(neg), impact = impact)
+      impact <- best_proj **2/drop(clr_vect %*% clr_vect)
+      bal_sbp <- balance_to_sbp(names(clr_vect), names(pos), names(neg), "b2")
+      list(num = names(pos),den = names(neg), impact = impact, sbp = bal_sbp)
     })
     balances[["mixed_a"]] <- ll_best$a
     balances[["mixed_b"]] <- ll_best$b
@@ -58,10 +59,18 @@ find_two_nearest_balances <- function(vect_ilr, psi,  vect_ilr_2 = vect_ilr){
     s <- length(bal$den)
     proj <- sqrt(r*s/(r+s))*(mean(clr_vect[bal$num]) - mean(clr_vect[bal$den]))
     bal$impact <-  drop(proj**2/(clr_vect %*% clr_vect))
+    bal$coord <- proj
     bal
   })
 
   impacts <- sapply(balances, function(bal) bal$impact)
   best_bal <- balances[[which.max(impacts)]]
-  list(b1 = first_bal, b2 = best_bal)
+  sbp = data.frame(b1 = first_bal$sbp[names(clr_vect),],
+                   b2 = best_bal$sbp[names(clr_vect),])
+  rownames(sbp) <- names(clr_vect)
+  sbp[is.na(sbp)] <- 0
+
+  list(b1 = first_bal, b2 = best_bal, sbp = sbp,
+       impacts = c(b1 = first_bal$impact, b2 = best_bal$impact),
+       coord = c(b1 = first_bal$coord, b2 = best_bal$coord))
 }

@@ -27,6 +27,7 @@ make_default_psi <- function(components){
     }
   }
   colnames(psi) <- components
+  rownames(psi) <- paste0("z", 1:nrow(psi))
   return(psi)
 }
 
@@ -38,4 +39,18 @@ balance_to_clr<-function(balance, components_names){
   clr_vect[balance$num] <- sqrt(r*s/(r+s))/r
   clr_vect[balance$den] <- -sqrt(r*s/(r+s))/s
   return(clr_vect)
+}
+
+make_psi_from_sbp <- function(sbp){
+  res <- t(apply(sbp, 2, function(col){
+    r <- sum(col>0)
+    s <- sum(col<0)
+    col[col>0] <- sqrt(r*s/(r+s))/r
+    col[col<0] <- -sqrt(r*s/(r+s))/s
+    col
+  }))
+  if (ncol(sbp) ==1){
+    res = res
+  }
+  return(res)
 }
