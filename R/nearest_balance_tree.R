@@ -220,6 +220,9 @@ find_nearest_balance_tree <- function(ilr_vect, psi){
 }
 
 # vect_clr <-c(t1=-0.7, t2=-0.3, t3=0.2, t4=0.8)
+# vect_clr <- readRDS("~/Downloads/clr_vect_2.RDS")
+# vect_clr <-c(v1=-0.1, v2=-0.8, v3=-0.1, v4=0.6, v5=0.1, v6=0.9, v7=-0.6, v8=0.9)
+# nb_tree <- get_nb_tree(clr_vect = vect_clr)
 # psi <- make_default_psi(names(vect_clr))
 # vect_ilr <- drop(vect_clr %*% t(psi))
 # nb_all <- find_nearest_balance_tree(vect_ilr, psi)
