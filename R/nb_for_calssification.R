@@ -19,7 +19,7 @@ nb_svm <- function(abundance, f,
 
   return(list(nb = nb,
               svm_res = svm_res,
-              coordinates_for_svm = list(ilr=ilr, sbp=sbp))
+              coordinates_for_svm = list(ilr=ilr, sbp=sbp)))
 }
 
 nb_lda <- function(abundance, f,
@@ -43,5 +43,5 @@ nb_lda <- function(abundance, f,
 
   return(list(nb = nb,
               lda_res = lda_res,
-              coordinates_for_lda = list(ilr=ilr, sbp=sbp))
+              coordinates_for_lda = list(ilr=ilr, sbp=sbp)))
 }
