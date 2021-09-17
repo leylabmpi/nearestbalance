@@ -45,21 +45,21 @@ calculate_sblm_summary <- function(nb_sbp,
 }
 
 
-nb_lm <- function(abundance, metadata, f, cov,
+nb_lm <- function(abundance, metadata, pred, cov,
                   sbp = sbp.fromRandom(abundance),
                   type = c("one_balance", "two_balances", "tree")){
 
-  if(class(metadata[[f]]) %in% c("caracter", "factor") &
-     length(unique(metadata[[f]])) != 2){
+  if(class(metadata[[pred]]) %in% c("caracter", "factor") &
+     length(unique(metadata[[pred]])) != 2){
     stop("the factor of interest should be countinious or factor with two levels")
   }
   type <- match.arg(type)
 
   ilr <- balance.fromSBP(abundance, sbp)
   if(!is.null(cov)){
-    lm_res = lm(ilr ~ ., as.data.frame(metadata)[, c(f, cov)])
+    lm_res = lm(ilr ~ ., as.data.frame(metadata)[, c(pred, cov)])
   } else{
-    lm_res = lm(ilr ~ metadata[[f]])
+    lm_res = lm(ilr ~ metadata[[pred]])
   }
 
   lm_coef <- drop(coefficients(lm_res)[2,])
