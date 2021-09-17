@@ -1,79 +1,34 @@
-Knomics biota 16s library
-
-# Содержание readme
+# Content
 [TOC]
 
 
-# Установка и использование пакета
+# Installation
 ```
 library(devtools)
-install_bitbucket('knomics/knb16s_lib', auth_user = '<username>', password = '<password>')
-library(knb16slib)
+install_bitbucket('knomics/nearestbalance', auth_user = '<username>', password = '<password>')
+library(NearestBalance)
 ```
 
-где `<username>` и `<password>` - ваши имя и пароль от битбакета.
+where `<username>` and `<password>` - your username and password 
 
-Далее все функции пакета доступны так же, как функции любых других пакетов.
+# Requirements
+...
 
-Чтобы обновить версию пакета, нужно повторить `install_bitbucket`.
-
-### Проверка вресии пакета
-При установке с помощью `install_bitbucket` записывается код коммита и дата билда, посмотреть их можно выполнив:
-
+# Quick start quide
 ```
-packageDescription("knb16slib")
-```
+library(NearestBalance)
+library(selbal)
+library(zCompositions)
 
-### Установка пакета, если этот репозиторий есть локально на компьютере
-Можно также выполнить установку пакета локально с компьютера:
+# get test data
+test_data <- selbal::HIV[1:60]
+abundance <- cmultRepl(test_data)
+nb <- nb_lm(abundance,
+            f = HIV$HIV_Status,
+            cov = NULL,
+            type = "two_balances")
 
-```
-install.packages('<repo_path>', repos = NULL)
-```
-
-где `<repo_path>` - полный путь к репозитории на компьютере.
-
-# Внесение изменений в пакет
-
-## Установка зависимостей для работы с пакетом
-```
-# для автоматической генерации документации
-install.packages('roxygen2')
+# best balance 
+nb$b1
 ```
 
-## Скачивание репозитория пакета и открытие в RStudio
-
-1. `git clone <url>`
-1. В Rstudio: File -> New project... -> Existing Directory -> (путь к склонированному репо)
-     - Rstudio поймёт, что в папке R-пакет и появится доп. вкладка Build
-1. Вкладка **Build** -> **More** -> **Configure Build Tools** -> галочка "Generate documentation with Roxygen", затем **Configure** -> галочки "Rd files", "NAMESPACE file", "Build & Reload"
-
-## Добавление модулей(.R-файлов)/функций
-### Модуль
-Новые модули нужно добавлять в директорию knb16s_lib/R.  
-Чтобы модуль использовал функции/переменные из других модулей, необходимо сделать их  `source` в начале модуля.
-
-### Функция
-Чтобы функцию можно было использовать из пакета, необходимо:
-
-1. Добавить краткое описание функции после `#'` (см. уже существующие функции)
-1. Добавить `#' @export` перед функцией
-
-Если функция использует сторонние пакеты, необхоидмо перечислить их перед объявлением функции (а не в начале модуля) после `#' @import`.  
-
-Пример:
-```
-#' Really important function
-#'
-#' @export
-#' @import data.table
-DoFoo <- function(x) {
- return(TRUE)
-}
-```
-
-
-## Сборка пакета и изменений отправка в репозиторий
-Чтобы собрать пакет, в RStudio: вкладка Build -> Build & Reload.  
-Затем можно сделать `git add`/`commit`/`push`.  
-Добавлять в репозиторий нужно все файлы, кроме .Rproj (но он и в игноре)
