@@ -58,6 +58,7 @@ vect_ilr <- drop(vect_clr %*% t(psi))
 nb_all <- find_nearest_balance_tree(vect_ilr, psi)
 res_tree <- get_tree_structure(nb_all$nb_tree, do_nice_names = F)
 plot_tree(res_tree)
+}
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory (show via RShowDoc("KEYWORDS")):
 % \keyword{ ~kwd1 }
