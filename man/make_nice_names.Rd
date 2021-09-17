@@ -47,7 +47,7 @@ short taxa names like "Methanothermobacter;-u"
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-
+}
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory (show via RShowDoc("KEYWORDS")):
 % \keyword{ ~kwd1 }
