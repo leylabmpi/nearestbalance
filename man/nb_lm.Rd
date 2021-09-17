@@ -12,9 +12,9 @@ nb_lm(abundance, metadata, f, cov, sbp = sbp.fromRandom(abundance), type = c("on
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{abundance}{table of taxa propotions without zeroes with samples as rows and taxa as colums}
-  \item{f} {values of the predictor, either continious or categorical with two levels}
-  \item{cov} {\code{data.frame} with covariates as columns and samples as rows}
-  \item{type} {type of output: "one_balance", "two_balances", or "tree".}
+  \item{f}{values of the predictor, either continious or categorical with two levels}
+  \item{cov}{\code{data.frame} with covariates as columns and samples as rows}
+  \item{type}{type of output: "one_balance", "two_balances", or "tree".}
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~

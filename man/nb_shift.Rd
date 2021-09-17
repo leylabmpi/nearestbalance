@@ -12,17 +12,17 @@
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{abundance}{table of taxa propotions without zeroes with samples as rows and taxa as colums}
-  \item{samp_1} {name of the first sample}
-  \item{samp_2} {name of the second sample}
-  \item{type} {type of output: "one_balance", "two_balances", or "tree".}
+  \item{samp_1}{name of the first sample}
+  \item{samp_2}{name of the second sample}
+  \item{type}{type of output: "one_balance", "two_balances", or "tree".}
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~
 }
 \value{
-  \item{sbp} {binary partition table with found balances as columns and taxa as rows. Value "1" means that the taxon corresponds to the numerator of a balance, "-1" to the denuminator, and "0" - is not included in the balance. The table is compatible with \code{balance.fromSBP} function from the library \code{balance}}
-  \item{impacts} {impacts of each balance. For tree the sum is 1.}
-  \item{coord} {projection of the shift on the found balances.}
+  \item{sbp}{binary partition table with found balances as columns and taxa as rows. Value "1" means that the taxon corresponds to the numerator of a balance, "-1" to the denuminator, and "0" - is not included in the balance. The table is compatible with \code{balance.fromSBP} function from the library \code{balance}}
+  \item{impacts}{impacts of each balance. For tree the sum is 1.}
+  \item{coord}{projection of the shift on the found balances.}
 }
 \references{
 %% ~put references to the literature/web site here ~
@@ -37,7 +37,8 @@
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-  \code{\link{nb_shift_ilr}}}, \code{\link{find_nearest_balance}}}, \code{\link{find_two_nearest_balances}}}, \code{\link{find_nearest_balance_tree}}}
+%  \code{\link{nb_shift_ilr}}}, \code{\link{find_nearest_balance}}}, %\code{\link{find_two_nearest_balances}}}, \code{\link{find_nearest_balance_tree}}
+}
 \examples{
 abundance = cmultRepl(HIV[,1:30])
 samp_1 <- rownames(abundance)[1]
