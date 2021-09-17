@@ -19,7 +19,6 @@ make_nice_names(x)
   a character vector with long taxa names like "p__Euryarchaeota;c__Methanobacteria;o__Methanobacteriales;f__Methanothermobacteriaceae;g__Methanothermobacter;s__"
 %%     ~~Describe \code{x} here~~
 }
-}
 \details{
 %%  ~~ If necessary, more details than the description above ~~
 }
