@@ -1,8 +1,9 @@
 library(partitions)
 library(data.table)
 library(stringr)
+library(data.tree)
 
-GetBlocks <- function(rs.i, sorted.taxa.i, blocks, k, k.vars.nams.num, type) {
+get_blocks <- function(rs.i, sorted.taxa.i, blocks, k, k.vars.nams.num, type) {
   parts.s <- as.matrix(blockparts(blocks, rs.i), rownames=names(blocks))
   ind.1 <- sapply(rownames(parts.s), function(row.i) parts.s[row.i, ]%%k.vars.nams.num[row.i]==0)
   ind.1 <- as.matrix(ind.1)
@@ -42,12 +43,12 @@ find_nearest_balance_clr_k <- function(clr_vect, k){
   sorted.taxa.dec <- sapply(names(k.vars), function(k.i) sort(clr_vect[k.str==k.i], decreasing = T), simplify = F)
   proj_vals <- matrix(NA, nrow = D-1, ncol = D-1)
   dt.res <- rbindlist(lapply(1:(D-1), function(r) {
-    sorted.vars.r.s.1 <- GetBlocks(r, sorted.taxa.i = sorted.taxa.dec, blocks, k.vars.nams.num = k.vars.nams.num, k=k, type = 'high')
+    sorted.vars.r.s.1 <- get_blocks(r, sorted.taxa.i = sorted.taxa.dec, blocks, k.vars.nams.num = k.vars.nams.num, k=k, type = 'high')
     rbindlist(lapply(1:(D-r), function(s) {
       # message(r)
       #  message(s)
       # get table of all possible num and den compositions
-      sorted.vars.r.s.2 <- GetBlocks(s, sorted.taxa.i = sorted.taxa, blocks, k.vars.nams.num = k.vars.nams.num, k=k, type = 'low')
+      sorted.vars.r.s.2 <- get_blocks(s, sorted.taxa.i = sorted.taxa, blocks, k.vars.nams.num = k.vars.nams.num, k=k, type = 'low')
       sorted.vars.r.s <- rbind(sorted.vars.r.s.1, sorted.vars.r.s.2)
       sorted.vars.r.s$r <- r
       sorted.vars.r.s$s <- s
@@ -219,11 +220,43 @@ find_nearest_balance_tree <- function(ilr_vect, psi){
               coord = coord[names(impacts)]))
 }
 
-# vect_clr <-c(t1=-0.7, t2=-0.3, t3=0.2, t4=0.8)
-# vect_clr <- readRDS("~/Downloads/clr_vect_2.RDS")
-# vect_clr <-c(v1=-0.1, v2=-0.8, v3=-0.1, v4=0.6, v5=0.1, v6=0.9, v7=-0.6, v8=0.9)
-# nb_tree <- get_nb_tree(clr_vect = vect_clr)
-# psi <- make_default_psi(names(vect_clr))
-# vect_ilr <- drop(vect_clr %*% t(psi))
-# nb_all <- find_nearest_balance_tree(vect_ilr, psi)
-# nb_two <- find_two_nearest_balances(vect_ilr, psi)
+make_nice_names <- function(x) {
+  str_remove(str_replace(str_replace_all(str_replace_all(x, '[gsfoc]__;', '-u;'), ';[gsfoc]__$', ';-u'), ';s__', '-'), '.*_')
+}
+
+get_tree_structure <- function(dt_tree, do_nice_names = F, nice_function=make_nice_names) {
+  if (do_nice_names) {
+    dt_tree[, t1.nice.names := nice_function(t1)]
+    dt_tree[, t2.nice.names := nice_function(t2)]
+  } else {
+    dt_tree[, t1.nice.names := t1]
+    dt_tree[, t2.nice.names := t2]
+  }
+  root <- Node$new(dt_tree[iter==max(iter)]$bal)
+  ch1 <- root$AddChild(dt_tree[bal == root$name]$t1.nice.names)
+  ch2 <- root$AddChild(dt_tree[bal == root$name]$t2.nice.names)
+  iter.tree <- function(i, dt_tree) {
+    message(i$name)
+    message(((nrow(dt_tree[bal == i$name])>0)))
+    if ((nrow(dt_tree[bal == i$name])>0)) {
+      k <- i$AddChild(dt_tree[bal == i$name]$t1.nice.names)
+      n <- i$AddChild(dt_tree[bal == i$name]$t2.nice.names)
+      iter.tree(k, dt_tree)
+      iter.tree(n, dt_tree)
+    }
+  }
+  iter.tree(ch1, dt_tree)
+  iter.tree(ch2, dt_tree)
+  root
+}
+
+plot_tree <- function(ilr_tree) {
+  SetGraphStyle(ilr_tree)
+  SetEdgeStyle(ilr_tree, arrowhead = "vee", color = "grey35", penwidth = 2)
+  SetNodeStyle(ilr_tree, style = "filled,rounded", shape = "egg",
+               fillcolor = 'white', fontcolor = 'grey33',
+               fontname = "helvetica")
+  Do(ilr_tree$leaves, function(node) SetNodeStyle(node, fontcolor = 'black', shape = "box"))
+  plot(ilr_tree)
+}
+
