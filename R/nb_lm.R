@@ -1,7 +1,3 @@
-library(balance)
-library(partitions)
-library(stringr)
-
 cos_xy   <- function(x,y){
   drop(x %*% y)/(drop(sqrt(x %*% x)) * drop(sqrt(y %*% y)))
 }
@@ -49,9 +45,9 @@ calculate_sblm_summary <- function(nb_sbp,
 }
 
 
-nblm <- function(abundance, metadata, f, cov,
-                 sbp = sbp.fromRandom(abundance),
-                 type = c("one_balance", "two_balances", "tree")){
+nb_lm <- function(abundance, metadata, f, cov,
+                  sbp = sbp.fromRandom(abundance),
+                  type = c("one_balance", "two_balances", "tree")){
 
   if(class(metadata[[f]]) %in% c("caracter", "factor") &
      length(unique(metadata[[f]])) != 2){
@@ -89,9 +85,4 @@ nblm <- function(abundance, metadata, f, cov,
               sblm_summary = summary))
 }
 
-# abundance <- cmultRepl(selbal::HIV[1:60])
-# nb <- nblm(abundance,
-#            metadata = HIV,
-#            f = "HIV_Status",
-#            cov = NULL,
-#            type = "tree")
+
