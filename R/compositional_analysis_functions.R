@@ -1,22 +1,3 @@
-calc_bal <- function(data, balance) {
-  S1 <- log(data[, balance$num])
-  S2 <- log(data[, balance$den])
-  if (!is.vector(S1)) {
-    S1 <- rowMeans(S1)
-  } else {
-    names(S1) <- rownames(data)
-  }
-  if (!is.vector(S2)) {
-    S2 <- rowMeans(S2)
-  } else {
-    names(S2) <- rownames(data)
-  }
-  s1 <- length(balance$num)
-  s2 <- length(balance$den)
-  bal <- sqrt((s1 * s2) / (s1 + s2)) * (S1 - S2)
-  return(bal)
-}
-
 make_default_psi <- function(components) {
   D <- length(components)
   psi <- matrix(0, ncol = D, nrow = D - 1)

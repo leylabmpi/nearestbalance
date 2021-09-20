@@ -1,11 +1,16 @@
+library(balance)
+library(e1071)
+source("R/compositional_analysis_functions.R")
+
 nb_svm <- function(abundance, f,
                    type = c("one_balance",
                             "two_balances",
                             "tree"),
                    sbp = sbp.fromRandom(abundance)){
   ilr <- balance.fromSBP(abundance, sbp)
-  svm_res <- svm(as.factor(f) ~ ., ilr_table, kernel = "linear")
+  svm_res <- svm(as.factor(f) ~ ., ilr, kernel = "linear")
   ilr_vect <- drop(t(svm_res$coefs) %*% svm_res$SV)
+  psi <- make_psi_from_sbp(sbp)
 
   if (type != "one_balance"){
     nb <- find_nearest_balance(ilr_vect, psi)
@@ -19,7 +24,7 @@ nb_svm <- function(abundance, f,
 
   return(list(nb = nb,
               svm_res = svm_res,
-              coordinates_for_svm = list(ilr=ilr, sbp=sbp)))
+              coord = list(ilr=ilr, sbp=sbp)))
 }
 
 nb_lda <- function(abundance, f,
@@ -28,8 +33,9 @@ nb_lda <- function(abundance, f,
                             "tree"),
                    sbp = sbp.fromRandom(abundance)){
   ilr <- balance.fromSBP(abundance, sbp)
-  lda_res <- lda(f~., ilr_table)
+  lda_res <- lda(f~., as.data.frame(ilr))
   ilr_vect <- drop(t(lda_res$scaling))
+  psi <- make_psi_from_sbp(sbp)
 
   if (type != "one_balance"){
     nb <- find_nearest_balance(ilr_vect, psi)
@@ -43,5 +49,5 @@ nb_lda <- function(abundance, f,
 
   return(list(nb = nb,
               lda_res = lda_res,
-              coordinates_for_lda = list(ilr=ilr, sbp=sbp)))
+              coord = list(ilr=ilr, sbp=sbp)))
 }

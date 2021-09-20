@@ -81,7 +81,7 @@ nb_lm <- function(abundance, metadata, pred, cov,
 
   return(list(nb = nb,
               lm_res = lm_res,
-              coordinates_for_lm = list(ilr=ilr, sbp=sbp),
+              coord = list(ilr=ilr, sbp=sbp),
               sblm_summary = summary))
 }
 

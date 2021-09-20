@@ -23,7 +23,7 @@ nb_lm(abundance, metadata, f, cov, sbp = sbp.fromRandom(abundance), type = c("on
 \value{
   \item{nb}{The nearest balance (for \code{type == "one balance"}), two nearest balances (for \code{type == "two_balances"})  or nearest balance tree  (for \code{type == "tree"}) constructed for the predictor's coefficient in the regression}
   \item{lm_res}{output of a multivariate linear regression}
-  \item{coordinates_for_lm}{ILR coordinates used to fit the linear regression}
+  \item{coord}{ILR coordinates used to fit the linear regression}
   \item{sblm_summary}{single-balance linear regression model summary}
 }
 \references{
