@@ -8,7 +8,7 @@ find_two_nearest_balances <- function(vect_ilr, psi, vect_ilr_2 = vect_ilr) {
 
   features_not_in_balance <- clr_vect[setdiff(
     colnames(psi),
-    c(first_bal$num, first_bal$den)
+    c(first_bal$b1$num, first_bal$b1$den)
   )]
   features_not_in_balance <- sort(features_not_in_balance, decreasing = T)
 
@@ -25,10 +25,10 @@ find_two_nearest_balances <- function(vect_ilr, psi, vect_ilr_2 = vect_ilr) {
 
     # mixed balance
     balances <- balances[!is.na(balances)]
-    first_bal_mean_clr <- mean(clr_vect[c(first_bal$num, first_bal$den)])
-    n_first <- length(c(first_bal$num, first_bal$den))
+    first_bal_mean_clr <- mean(clr_vect[c(first_bal$b1$num, first_bal$b1$den)])
+    n_first <- length(c(first_bal$b1$num, first_bal$b1$den))
     replacing_features <- rep(first_bal_mean_clr, n_first)
-    names(replacing_features) <- c(first_bal$num, first_bal$den)
+    names(replacing_features) <- c(first_bal$b1$num, first_bal$b1$den)
     ll <- list(
       a = list(
         features = c(replacing_features, features_not_in_balance),
@@ -80,7 +80,9 @@ find_two_nearest_balances <- function(vect_ilr, psi, vect_ilr_2 = vect_ilr) {
   sbp[is.na(sbp)] <- 0
 
   list(
-    b1 = first_bal, b2 = best_bal, sbp = sbp,
+    b1 = first_bal$b1,
+    b2 = best_bal[c("num", "den")],
+    sbp = sbp,
     impacts = c(b1 = first_bal$impact, b2 = best_bal$impact),
     coord = c(b1 = first_bal$coord, b2 = best_bal$coord)
   )

@@ -45,7 +45,8 @@ calculate_sblm_summary <- function(nb_sbp,
 }
 
 
-nb_lm <- function(abundance, metadata, pred, cov,
+nb_lm <- function(abundance, metadata, pred,
+                  cov = NULL,
                   sbp = sbp.fromRandom(abundance),
                   type = c("one_balance", "two_balances", "tree")){
 

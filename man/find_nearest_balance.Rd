@@ -29,10 +29,10 @@ find_nearest_balance(ilr_vector, psi)
 }
 
 \value{
-  \item{num}{components in the numerator of the balance}
-  \item{den}{components in the  denominator of the balance}
-  \item{impact}{the impact of the nearest balance. It is calculated as squared ratio between lenght of the \code{ilr_vect} projection on the balancing element and length of \code{ilr_vect} itself.}
-  \item{sbp}{partition of components as input to \code{balance::balance.fromSBP()}}
+  \item{b1 }{list of the components in the numerator and denumerator of the balance}
+  \item{impact}{the impact of the nearest balance. It is calculated as squared ratio between lenght of the \code{ilr_vect } projection on the balancing element and length of \code{ilr_vect} itself.}
+  \item{sbp }{partition of components as input to \code{balance::balance.fromSBP()}}
+  \item{coord }{projection of the \code{ilr_vector} on the balance}
 }
 %%  ~Describe the value returned
 %%  If it is a LIST, use

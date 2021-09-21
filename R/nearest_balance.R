@@ -42,12 +42,10 @@ find_nearest_balance_clr <- function(clr_vect, balance_name = "bal") {
     names(neg), balance_name
   )
 
-  return(list(
-    num = names(pos),
-    den = names(neg),
-    impact = impact,
-    sbp = bal_spb,
-    coord = coord
+  return(list(b1 = list(num = names(pos), den = names(neg)),
+              impact = impact,
+              sbp = bal_spb,
+              coord = coord
   ))
 }
 
@@ -80,11 +78,9 @@ nearest_balances_list <- function(clr_vect, plot = F) {
     num_i <- names(clr_vect_pos[1:i])
     den_i <- names(clr_vect_neg[1:(n - i)])
     bal_spb <- balance_to_sbp(names(clr_vect), num_i, den_i)
-    list(
-      num = num_i,
-      den = den_i,
-      impact = proj**2 / clr_norm,
-      sbp = bal_sbp
+    list(b1=list(num = num_i, den = den_i),
+         impact = proj**2 / clr_norm,
+         sbp = bal_sbp
     )
   })
   names(best_balances) <- paste0("n=", 2:D)

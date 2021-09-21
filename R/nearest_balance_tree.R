@@ -214,10 +214,16 @@ find_nearest_balance_tree <- function(ilr_vect, psi){
   nb_psi <- make_psi_from_sbp(nb_sbp)
   coord <- drop(t(nb_psi %*% clr_vect))
   impacts <- sort(coord**2 / drop(clr_vect %*% clr_vect), decreasing = T)
-  return(list(nb_tree = nb_tree,
-              sbp = nb_sbp[, names(impacts)],
+  sbp = nb_sbp[, names(impacts)]
+  balances_list <- apply(sbp, 2, function(x) {
+    list(num = names(x==1), den = names(x==-1))
+  })
+  return(list(nb_tree = get_tree_structure(nb_tree),
+              balances = balances_list,
+              sbp = sbp,
               impacts = impacts,
-              coord = coord[names(impacts)]))
+              coord = coord[names(impacts)],
+              nb_name = names(which.max(impacts))))
 }
 
 make_nice_names <- function(x) {

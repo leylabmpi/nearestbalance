@@ -44,8 +44,9 @@ nb_lm(abundance, metadata, f, cov, sbp = sbp.fromRandom(abundance), type = c("on
 \examples{
 library(selbal)
 abundance <- cmultRepl(selbal::HIV[1:60])
-nb <- nb_lm(abundance,
-            f = HIV$HIV_Status,
+nb <- nb_lm(abundance = abundance,
+            metadata = HIV,
+            pred = "HIV_Status",
             cov = NULL,
             type = "two_balances")
 }

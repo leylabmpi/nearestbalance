@@ -1,0 +1,109 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# NearestBalance
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+The goal of NearestBalance is to ...
+
+## Installation
+
+You can install the released version of NearestBalance from [CRAN](https://CRAN.R-project.org) with:
+
+``` r
+install.packages("NearestBalance")
+```
+
+## Quick start guide
+
+Load data for the example
+
+``` {r example, warning=FALSE, verbose=FALSE}
+library(NearestBalance)
+library(zCompositions)
+library(selbal)
+test_data <- selbal::HIV[1:60]
+abundance <- cmultRepl(test_data)
+```
+
+
+## Principal balance analysis with NearestBalance
+``` {r PBA}
+nb_1 <- nb_pca(abundance)
+plot_nb_pca(nb_1, colour = HIV$MSM, pch = HIV$HIV_Status)
+
+# first principal balance
+nb_1$nb$b1
+```
+## Regression analysis
+``` {r lm}
+nb_2 <- nb_lm(abundance = abundance,
+              metadata = HIV,
+              pred = "MSM",
+              cov = "HIV_Status")
+```
+
+Statistical significance of the association
+```{r signif}
+summary(manova(nb_2$lm_res))
+```
+
+nearest balance interpretation of the regression coefficient
+```{r lm balance}
+nb_2$nb$b1
+```
+
+## Interpretation of the SVM results
+``` {r svm}
+nb_3 <- nb_svm(abundance = abundance,
+               f = HIV$HIV_Status)
+```
+
+The nearest balance for the discriminating direction
+``` {r}
+nb_3$nb$b1
+```
+
+## Interpretation of the LDA results
+``` {r lda}
+nb_4 <- nb_lda(abundance = abundance,
+               f = HIV$HIV_Status)
+```
+
+The nearest balance for the discriminating direction
+``` {r}
+nb_4$nb$b1
+```
+
+## Interpretation of differences between two samples
+```{r}
+nb_5 <- nb_shift(abundance = abundance[,1:15],
+                 samp_1 = rownames(abundance)[1],
+                 samp_2 = rownames(abundance)[2],
+                 type = "two_balances")
+```
+
+The nearest balance
+```{r}
+nb_5$b1
+```
+
+Impacts of the balances
+```{r}
+nb_5$impactsdthf
+```
+
