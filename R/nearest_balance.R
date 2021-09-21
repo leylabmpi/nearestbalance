@@ -1,6 +1,6 @@
 library(balance)
 
-balance_to_sbp <- function(parts_names, num, den, balance_name = "bal") {
+balance_to_sbp <- function(parts_names, num, den, balance_name = "b1") {
   bal_spb <- data.frame(
     bal = rep(0, length(parts_names)),
     row.names = parts_names
@@ -11,7 +11,7 @@ balance_to_sbp <- function(parts_names, num, den, balance_name = "bal") {
   return(bal_spb)
 }
 
-find_nearest_balance_clr <- function(clr_vect, balance_name = "bal") {
+find_nearest_balance_clr <- function(clr_vect, balance_name = "b1") {
   D <- length(clr_vect)
   if (D < 2) {
     return(NA)
@@ -49,7 +49,7 @@ find_nearest_balance_clr <- function(clr_vect, balance_name = "bal") {
   ))
 }
 
-find_nearest_balance <- function(ilr_vector, psi, balance_name = "bal") {
+find_nearest_balance <- function(ilr_vector, psi, balance_name = "b1") {
   clr_vect <- drop(ilr_vector %*% psi)
   names(clr_vect) <- colnames(psi)
   find_nearest_balance_clr(clr_vect)
