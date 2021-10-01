@@ -25,6 +25,7 @@ nb_lm(abundance, metadata, f, cov, sbp = sbp.fromRandom(abundance), type = c("on
   \item{lm_res}{output of a multivariate linear regression}
   \item{coord}{ILR coordinates used to fit the linear regression}
   \item{sblm_summary}{single-balance linear regression model summary}
+  \item{noise}{estimate of the noise: proportion between standard devivation of coeffitient and the lingth of the shift associated with the predictor. Value between 0 and 1. }
 }
 \references{
 %% ~put references to the literature/web site here ~
@@ -43,6 +44,7 @@ nb_lm(abundance, metadata, f, cov, sbp = sbp.fromRandom(abundance), type = c("on
 }
 \examples{
 library(selbal)
+library(zCompositions)
 abundance <- cmultRepl(selbal::HIV[1:60])
 nb <- nb_lm(abundance = abundance,
             metadata = HIV,

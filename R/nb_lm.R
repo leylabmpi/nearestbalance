@@ -1,3 +1,5 @@
+# library(matlib)
+
 cos_xy   <- function(x,y){
   drop(x %*% y)/(drop(sqrt(x %*% x)) * drop(sqrt(y %*% y)))
 }
@@ -80,10 +82,17 @@ nb_lm <- function(abundance, metadata, pred,
     stop("incorrect type of analysis")
   }
 
+  # sigma_sq <- sum(diag(cov(lm_res$residuals)))
+  # X <- model.matrix(lm_res)
+  # coef_var <- sigma_sq * inv(t(X) %*% X)[2,2]
+  coef_var <- sum(sapply(summary(lm_res), function(x) x$coefficients[2,2]**2))
+  noise = sqrt(coef_var/ drop(lm_coef %*% lm_coef))
+
   return(list(nb = nb,
               lm_res = lm_res,
               coord = list(ilr=ilr, sbp=sbp),
-              sblm_summary = summary))
+              sblm_summary = summary,
+              noise = noise))
 }
 
 

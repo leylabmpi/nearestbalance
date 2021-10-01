@@ -6,11 +6,13 @@ source("R/second_balance.R")
 nb_shift_ilr <- function(v,
                          sbp,
                          v2 = v,
-                         type = c("one_balance", "two_balances", "tree")){
+                         type = c("one_balance", "two_balances", "tree"),
+                         bal_list = F, plot_list = T){
   psi <- make_psi_from_sbp(sbp)
   type = match.arg(type)
   if(type == "one_balance"){
-    res <- find_nearest_balance(v, psi)
+    res <- find_nearest_balance(v, psi, bal_list = bal_list,
+                                plot_list = plot_list)
   } else if (type == "two_balances"){
     res <- find_two_nearest_balances(v, psi, v2)
   } else if (type == "tree"){
@@ -25,12 +27,14 @@ nb_shift_ilr <- function(v,
 nb_shift <- function(abundance,
                      samp_1,
                      samp_2,
-                     type = c("one_balance", "two_balances", "tree")){
+                     type = c("one_balance", "two_balances", "tree"),
+                     bal_list = F, plot_list = T){
   sbp = sbp.fromRandom(abundance)
   ilr <- balance.fromSBP(abundance[c(samp_1, samp_2),], sbp)
   rownames(ilr) <- c(samp_1, samp_2)
   diff <- drop(ilr[samp_2,] - ilr[samp_1,])
-  nb <- nb_shift_ilr(v = diff, sbp = sbp, type = match.arg(type))
+  nb <- nb_shift_ilr(v = diff, sbp = sbp, type = match.arg(type),
+                     bal_list = bal_list, plot_list = plot_list)
   return(nb)
 }
 

@@ -49,13 +49,7 @@ find_nearest_balance_clr <- function(clr_vect, balance_name = "b1") {
   ))
 }
 
-find_nearest_balance <- function(ilr_vector, psi, balance_name = "b1") {
-  clr_vect <- drop(ilr_vector %*% psi)
-  names(clr_vect) <- colnames(psi)
-  find_nearest_balance_clr(clr_vect)
-}
-
-nearest_balances_list <- function(clr_vect, plot = F) {
+find_nearest_balance_list_clr <- function(clr_vect, plot = F) {
   D <- length(clr_vect)
   if (D < 2) {
     return(NA)
@@ -77,7 +71,7 @@ nearest_balances_list <- function(clr_vect, plot = F) {
     proj <- proj_vals[i, n - i]
     num_i <- names(clr_vect_pos[1:i])
     den_i <- names(clr_vect_neg[1:(n - i)])
-    bal_spb <- balance_to_sbp(names(clr_vect), num_i, den_i)
+    bal_sbp <- balance_to_sbp(names(clr_vect), num_i, den_i)
     list(b1=list(num = num_i, den = den_i),
          impact = proj**2 / clr_norm,
          sbp = bal_sbp
@@ -90,4 +84,18 @@ nearest_balances_list <- function(clr_vect, plot = F) {
     )
   }
   return(best_balances)
+}
+
+find_nearest_balance <- function(ilr_vector,
+                                 psi,
+                                 balance_name = "b1",
+                                 bal_list = F,
+                                 plot_list = T) {
+  clr_vect <- drop(ilr_vector %*% psi)
+  names(clr_vect) <- colnames(psi)
+  res <- find_nearest_balance_clr(clr_vect)
+  if (bal_list){
+    res$list <- find_nearest_balance_list_clr(clr_vect, plot = plot_list)
+  }
+  res
 }

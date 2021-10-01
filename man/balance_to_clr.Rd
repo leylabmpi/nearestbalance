@@ -12,7 +12,7 @@ balance_to_clr(balance,components_names)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{balance}{balance as output of find_nearest_balance() function}
+  \item{balance}{balance as b1 output of nb_shift() function}
   \item{components_names}{names of all parts of the composition}
 }
 \details{
@@ -41,17 +41,15 @@ balance_to_clr(balance,components_names)
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-%##---- Should be DIRECTLY executable !! ----
-%##-- ==>  Define data, use random,
-%##--	or do  help(data=index)  for the standard data sets.
 
-%## The function is currently defined as
-%function (x)
-%{
-%  }
-}
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
+library(selbal)
+library(zCompositions)
+abundance = cmultRepl(HIV[,1:30])
+samp_1 <- rownames(abundance)[1]
+samp_2 <- rownames(abundance)[2]
+
+nb_1 <- nb_shift(abundance, samp_1, samp_2)
+balance_to_clr(nb_1$b1, colnames(abundance))
 
 \keyword{ ~kwd1 }% use one of  RShowDoc("KEYWORDS")
 \keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

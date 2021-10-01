@@ -15,6 +15,8 @@
   \item{samp_1}{name of the first sample}
   \item{samp_2}{name of the second sample}
   \item{type}{type of output: "one_balance", "two_balances", or "tree".}
+  \item{bal_list}{only if \code{type == "one_balance"}. If \code{True} the best balance for each total number of taxa in it (from 2 to all) will be returned}
+  \item{plot_list}{only if \code{bal_list == T}. If \code{True} the impacts for the balances list will be plotted}
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~
@@ -23,6 +25,7 @@
   \item{sbp}{binary partition table with found balances as columns and taxa as rows. Value "1" means that the taxon corresponds to the numerator of a balance, "-1" to the denuminator, and "0" - is not included in the balance. The table is compatible with \code{balance.fromSBP} function from the library \code{balance}}
   \item{impacts}{impacts of each balance. For tree the sum is 1.}
   \item{coord}{projection of the shift on the found balances.}
+  \item{bal_list}
 }
 \references{
 %% ~put references to the literature/web site here ~
@@ -40,6 +43,8 @@
 %  \code{\link{nb_shift_ilr}}}, \code{\link{find_nearest_balance}}}, %\code{\link{find_two_nearest_balances}}}, \code{\link{find_nearest_balance_tree}}
 }
 \examples{
+library(selbal)
+library(zCompositions)
 abundance = cmultRepl(HIV[,1:30])
 samp_1 <- rownames(abundance)[1]
 samp_2 <- rownames(abundance)[2]
@@ -47,6 +52,7 @@ samp_2 <- rownames(abundance)[2]
 nb_1 <- nb_shift(abundance, samp_1, samp_2)
 nb_2 <- nb_shift(abundance, samp_1, samp_2, type = "two_balances")
 nb_tree <- nb_shift(abundance, samp_1, samp_2, type = "tree")
+nb_list <- nb_shift(abundance, samp_1, samp_2, bal_list = T)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory (show via RShowDoc("KEYWORDS")):
