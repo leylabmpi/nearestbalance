@@ -31,7 +31,7 @@ find_nearest_balance_tree(ilr_vect, psi)
   \item{impacts}{impacts of each balance in the tree. It is calculated as squared ratio between lenght of the \code{ilr_vect} projection on the balancing element and length of \code{ilr_vect} itself.  The nearest balance is the one with the highest impact}
   \item{coord}{coordinates of \code{ilr_vect} in ILR coordinates associated
   with the found sequential binary partition}
-  \item{nb_name} the nearest balance name
+  \item{nb_name}{the nearest balance name}
 %%  ~Describe the value returned
 %%  If it is a LIST, use
 %%  \item{comp1 }{Description of 'comp1'}

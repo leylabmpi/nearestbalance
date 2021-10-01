@@ -50,6 +50,7 @@ samp_2 <- rownames(abundance)[2]
 
 nb_1 <- nb_shift(abundance, samp_1, samp_2)
 balance_to_clr(nb_1$b1, colnames(abundance))
+}
 
 \keyword{ ~kwd1 }% use one of  RShowDoc("KEYWORDS")
 \keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

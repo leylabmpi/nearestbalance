@@ -25,7 +25,7 @@
   \item{sbp}{binary partition table with found balances as columns and taxa as rows. Value "1" means that the taxon corresponds to the numerator of a balance, "-1" to the denuminator, and "0" - is not included in the balance. The table is compatible with \code{balance.fromSBP} function from the library \code{balance}}
   \item{impacts}{impacts of each balance. For tree the sum is 1.}
   \item{coord}{projection of the shift on the found balances.}
-  \item{bal_list}
+  \item{bal_list}{list of best balances of fixed size (i.e. total numer of taxa in the balance)}
 }
 \references{
 %% ~put references to the literature/web site here ~
