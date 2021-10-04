@@ -35,6 +35,7 @@ Load data for the example
 ``` {r example, warning=FALSE, verbose=FALSE}
 library(NearestBalance)
 library(zCompositions)
+library(reshape2)
 library(selbal)
 test_data <- selbal::HIV[1:60]
 abundance <- cmultRepl(test_data)
@@ -91,19 +92,48 @@ nb_4$nb$b1
 
 ## Interpretation of differences between two samples
 ```{r}
-nb_5 <- nb_shift(abundance = abundance[,1:15],
-                 samp_1 = rownames(abundance)[1],
-                 samp_2 = rownames(abundance)[2],
-                 type = "two_balances")
+counts <- HFD[1:193]
+counts_filt <- counts[, colSums(counts > 0) > 0.5*nrow(counts)]
+abundance <- cmultRepl(counts_filt)
+
+meta <- HFD[, c("sample_id", "subject_id", "group")]
+pairs <- dcast(meta, subject_id ~ group, value.var = "sample_id")
+
+nb_5 <- nb_shift(abundance = abundance,
+                 samp_1 = pairs$after[1],
+                 samp_2 = pairs$before[1])
 ```
 
-The nearest balance
+The nearest balance to the microbiome shift of the first subject
 ```{r}
 nb_5$b1
 ```
 
-Impacts of the balances
+Impact of the nearest balance in the total shift
 ```{r}
 nb_5$impactsdthf
 ```
+
+Interpretation of the mean shift in the sample
+```{r}
+nb <- nb_mean_shift(abundance, pairs$before, pairs$after, "two_balances")
+
+plot(nb$coord$b1, nb$coord$b2, col = as.factor(HFD$group), xlab = "b1", ylab = "b2")
+arrows(mean(nb$coord[pairs$before, "b1"]),
+  mean(nb$coord[pairs$before, "b2"]),
+  mean(nb$coord[pairs$before, "b1"]) + nb$nb$coord["b1"],
+  mean(nb$coord[pairs$before, "b2"]) + nb$nb$coord["b2"],
+  lwd =3)
+```
+Members of the nearest balance to the mean shift
+```{r}
+nb$nb$b1
+```
+Impact
+```{r}
+nb$nb$impacts
+```
+
+
+
 

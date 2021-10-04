@@ -33,6 +33,7 @@ library(zCompositions)
 #> 
 #>     cor
 #> Loading required package: truncnorm
+library(reshape2)
 library(selbal)
 test_data <- selbal::HIV[1:60]
 abundance <- cmultRepl(test_data)
@@ -52,23 +53,6 @@ plot_nb_pca(nb_1, colour = HIV$MSM, pch = HIV$HIV_Status)
 # first principal balance
 nb_1$nb$b1
 #> $num
-#>  [1] "g_Alistipes"                         
-#>  [2] "g_Barnesiella"                       
-#>  [3] "g_Bacteroides"                       
-#>  [4] "g_Odoribacter"                       
-#>  [5] "g_Parabacteroides"                   
-#>  [6] "f_Porphyromonadaceae_g_unclassified" 
-#>  [7] "g_Thalassospira"                     
-#>  [8] "g_Butyricimonas"                     
-#>  [9] "g_Anaerostipes"                      
-#> [10] "g_Paraprevotella"                    
-#> [11] "f_Erysipelotrichaceae_g_unclassified"
-#> [12] "g_Streptococcus"                     
-#> [13] "g_Bifidobacterium"                   
-#> [14] "g_Blautia"                           
-#> [15] "g_Collinsella"                       
-#> 
-#> $den
 #>  [1] "g_Alloprevotella"                      
 #>  [2] "g_RC9_gut_group"                       
 #>  [3] "g_Prevotella"                          
@@ -88,7 +72,24 @@ nb_1$nb$b1
 #> [17] "g_Anaerotruncus"                       
 #> [18] "g_Megasphaera"                         
 #> [19] "g_Phascolarctobacterium"               
-#> [20] "g_Mitsuokella"
+#> [20] "g_Mitsuokella"                         
+#> 
+#> $den
+#>  [1] "g_Alistipes"                         
+#>  [2] "g_Barnesiella"                       
+#>  [3] "g_Bacteroides"                       
+#>  [4] "g_Odoribacter"                       
+#>  [5] "g_Parabacteroides"                   
+#>  [6] "f_Porphyromonadaceae_g_unclassified" 
+#>  [7] "g_Thalassospira"                     
+#>  [8] "g_Butyricimonas"                     
+#>  [9] "g_Anaerostipes"                      
+#> [10] "g_Paraprevotella"                    
+#> [11] "f_Erysipelotrichaceae_g_unclassified"
+#> [12] "g_Streptococcus"                     
+#> [13] "g_Bifidobacterium"                   
+#> [14] "g_Blautia"                           
+#> [15] "g_Collinsella"
 ```
 
 ## Regression analysis
@@ -159,41 +160,34 @@ The nearest balance for the discriminating direction
 nb_3$nb$b1
 #> $num
 #>  [1] "f_Ruminococcaceae_g_unclassified"    
-#>  [2] "g_Bacteroides"                       
-#>  [3] "f_Erysipelotrichaceae_g_unclassified"
-#>  [4] "g_Subdoligranulum"                   
+#>  [2] "f_Erysipelotrichaceae_g_unclassified"
+#>  [3] "g_Bacteroides"                       
+#>  [4] "g_Alistipes"                         
 #>  [5] "g_Megasphaera"                       
-#>  [6] "g_Succinivibrio"                     
+#>  [6] "g_Subdoligranulum"                   
 #>  [7] "g_Alloprevotella"                    
-#>  [8] "o_Clostridiales_g_unclassified"      
-#>  [9] "g_Alistipes"                         
-#> [10] "g_Blautia"                           
+#>  [8] "g_Succinivibrio"                     
+#>  [9] "o_Clostridiales_g_unclassified"      
+#> [10] "g_Anaerovibrio"                      
 #> [11] "f_Rikenellaceae_g_unclassified"      
-#> [12] "g_Anaerovibrio"                      
-#> [13] "o_NB1-n_g_unclassified"              
-#> [14] "g_Lachnospira"                       
-#> [15] "f_Defluviitaleaceae_g_Incertae_Sedis"
+#> [12] "g_Blautia"                           
+#> [13] "f_Defluviitaleaceae_g_Incertae_Sedis"
+#> [14] "g_Escherichia-Shigella"              
+#> [15] "g_Bifidobacterium"                   
 #> [16] "f_Lachnospiraceae_g_Incertae_Sedis"  
-#> [17] "g_Odoribacter"                       
-#> [18] "g_Solobacterium"                     
-#> [19] "g_Anaerotruncus"                     
 #> 
 #> $den
-#>  [1] "f_Ruminococcaceae_g_Incertae_Sedis"      
-#>  [2] "g_Butyricimonas"                         
+#>  [1] "g_Butyricimonas"                         
+#>  [2] "f_Ruminococcaceae_g_Incertae_Sedis"      
 #>  [3] "g_Oribacterium"                          
-#>  [4] "g_Streptococcus"                         
-#>  [5] "g_Dorea"                                 
-#>  [6] "f_vadinBB60_g_unclassified"              
-#>  [7] "g_Brachyspira"                           
-#>  [8] "g_Dialister"                             
-#>  [9] "g_Coprococcus"                           
-#> [10] "g_RC9_gut_group"                         
-#> [11] "g_Anaeroplasma"                          
-#> [12] "g_Paraprevotella"                        
-#> [13] "g_Thalassospira"                         
-#> [14] "f_Peptostreptococcaceae_g_Incertae_Sedis"
-#> [15] "g_Acidaminococcus"
+#>  [4] "g_RC9_gut_group"                         
+#>  [5] "g_Streptococcus"                         
+#>  [6] "g_Anaeroplasma"                          
+#>  [7] "g_Dialister"                             
+#>  [8] "g_Dorea"                                 
+#>  [9] "f_Peptostreptococcaceae_g_Incertae_Sedis"
+#> [10] "g_Coprococcus"                           
+#> [11] "g_Paraprevotella"
 ```
 
 ## Interpretation of the LDA results
@@ -230,30 +224,76 @@ nb_4$nb$b1
 ## Interpretation of differences between two samples
 
 ``` r
-nb_5 <- nb_shift(abundance = abundance[,1:15],
-                 samp_1 = rownames(abundance)[1],
-                 samp_2 = rownames(abundance)[2],
-                 type = "two_balances")
+counts <- HFD[1:193]
+counts_filt <- counts[, colSums(counts > 0) > 0.5*nrow(counts)]
+abundance <- cmultRepl(counts_filt)
+#> No. corrected values:  866
+meta <- HFD[, c("sample_id", "subject_id", "group")]
+pairs <- dcast(meta, subject_id ~ group, value.var = "sample_id")
+
+nb_5 <- nb_shift(abundance = abundance,
+                 samp_1 = pairs$after[1],
+                 samp_2 = pairs$before[1])
 ```
 
-The nearest balance
+The nearest balance to the microbiome shift of the first subject
 
 ``` r
 nb_5$b1
 #> $num
-#> [1] "g_Succinivibrio"                       
-#> [2] "f_Erysipelotrichaceae_g_Incertae_Sedis"
+#> [1] "g__Butyricimonas"         "g__Veillonella"          
+#> [3] "g__Sutterella"            "g__Phascolarctobacterium"
+#> [5] "g__Odoribacter"           "g__Bacteroides"          
+#> [7] "f__[Barnesiellaceae];g__" "g__Parabacteroides"      
+#> [9] "f__Clostridiaceae;g__"   
 #> 
 #> $den
-#> [1] "g_Dorea"                            "g_Alloprevotella"                  
-#> [3] "f_Ruminococcaceae_g_unclassified"   "f_Lachnospiraceae_g_Incertae_Sedis"
-#> [5] "g_Lachnospira"                      "f_Lachnospiraceae_g_unclassified"  
-#> [7] "g_Blautia"
+#> [1] "f__Staphylococcaceae;g__" "g__Staphylococcus"       
+#> [3] "g__Prevotella"            "g__Dialister"            
+#> [5] "g__Streptococcus"         "o__RF39;f__;g__"
 ```
 
-Impacts of the balances
+Impact of the nearest balance in the total shift
 
 ``` r
 nb_5$impactsdthf
 #> NULL
+```
+
+Interpretation of the mean shift in the sample
+
+``` r
+nb <- nb_mean_shift(abundance, pairs$before, pairs$after, "two_balances")
+
+plot(nb$coord$b1, nb$coord$b2, col = as.factor(HFD$group), xlab = "b1", ylab = "b2")
+arrows(mean(nb$coord[pairs$before, "b1"]),
+  mean(nb$coord[pairs$before, "b2"]),
+  mean(nb$coord[pairs$before, "b1"]) + nb$nb$coord["b1"],
+  mean(nb$coord[pairs$before, "b2"]) + nb$nb$coord["b2"],
+  lwd =3)
+```
+
+<img src="man/figures/README-unnamed-chunk-7-1.png" width="100%" />
+Members of the nearest balance to the mean shift
+
+``` r
+nb$nb$b1
+#> $num
+#> [1] "g__Staphylococcus"        "g__Acinetobacter"        
+#> [3] "f__Staphylococcaceae;g__" "g__Actinomyces"          
+#> 
+#> $den
+#> [1] "g__Odoribacter"           "g__Butyricimonas"        
+#> [3] "g__Bacteroides"           "g__Sutterella"           
+#> [5] "g__Parabacteroides"       "f__[Barnesiellaceae];g__"
+#> [7] "g__Phascolarctobacterium" "f__Rikenellaceae;g__"    
+#> [9] "g__Lachnospira"
+```
+
+Impact
+
+``` r
+nb$nb$impacts
+#>        b1        b2 
+#> 0.8387473 0.1143482
 ```
