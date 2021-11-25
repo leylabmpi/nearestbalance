@@ -109,12 +109,14 @@ The nearest balance to the microbiome shift of the first subject
 nb_5$b1
 ```
 
+
 Impact of the nearest balance in the total shift
 ```{r}
-nb_5$impactsdthf
+nb_5$impacts
 ```
 
-Interpretation of the mean shift in the sample
+
+## Interpretation of the mean shift in the sample
 ```{r}
 nb <- nb_mean_shift(abundance, pairs$before, pairs$after, "two_balances")
 
@@ -125,6 +127,12 @@ arrows(mean(nb$coord[pairs$before, "b1"]),
   mean(nb$coord[pairs$before, "b2"]) + nb$nb$coord["b2"],
   lwd =3)
 ```
+
+Statistical significance of the shift
+```{r}
+summary(manova(nb$lm_res),intercept = T)
+```
+
 Members of the nearest balance to the mean shift
 ```{r}
 nb$nb$b1
@@ -133,6 +141,11 @@ Impact
 ```{r}
 nb$nb$impacts
 ```
+Proportion of noise in data to the mean shift
+```{r}
+nb$noise
+```
+
 
 
 

@@ -162,32 +162,36 @@ nb_3$nb$b1
 #>  [1] "f_Ruminococcaceae_g_unclassified"    
 #>  [2] "f_Erysipelotrichaceae_g_unclassified"
 #>  [3] "g_Bacteroides"                       
-#>  [4] "g_Alistipes"                         
+#>  [4] "g_Succinivibrio"                     
 #>  [5] "g_Megasphaera"                       
-#>  [6] "g_Subdoligranulum"                   
-#>  [7] "g_Alloprevotella"                    
-#>  [8] "g_Succinivibrio"                     
-#>  [9] "o_Clostridiales_g_unclassified"      
-#> [10] "g_Anaerovibrio"                      
-#> [11] "f_Rikenellaceae_g_unclassified"      
-#> [12] "g_Blautia"                           
-#> [13] "f_Defluviitaleaceae_g_Incertae_Sedis"
-#> [14] "g_Escherichia-Shigella"              
-#> [15] "g_Bifidobacterium"                   
-#> [16] "f_Lachnospiraceae_g_Incertae_Sedis"  
+#>  [6] "g_Alloprevotella"                    
+#>  [7] "g_Alistipes"                         
+#>  [8] "g_Blautia"                           
+#>  [9] "g_Solobacterium"                     
+#> [10] "g_Subdoligranulum"                   
+#> [11] "f_Defluviitaleaceae_g_Incertae_Sedis"
+#> [12] "o_Clostridiales_g_unclassified"      
+#> [13] "f_Rikenellaceae_g_unclassified"      
+#> [14] "g_Bifidobacterium"                   
+#> [15] "g_Escherichia-Shigella"              
+#> [16] "g_Anaerovibrio"                      
+#> [17] "g_Odoribacter"                       
+#> [18] "g_Anaerotruncus"                     
 #> 
 #> $den
 #>  [1] "g_Butyricimonas"                         
 #>  [2] "f_Ruminococcaceae_g_Incertae_Sedis"      
 #>  [3] "g_Oribacterium"                          
-#>  [4] "g_RC9_gut_group"                         
-#>  [5] "g_Streptococcus"                         
-#>  [6] "g_Anaeroplasma"                          
-#>  [7] "g_Dialister"                             
-#>  [8] "g_Dorea"                                 
-#>  [9] "f_Peptostreptococcaceae_g_Incertae_Sedis"
-#> [10] "g_Coprococcus"                           
-#> [11] "g_Paraprevotella"
+#>  [4] "g_Streptococcus"                         
+#>  [5] "g_Dorea"                                 
+#>  [6] "g_Dialister"                             
+#>  [7] "g_Anaeroplasma"                          
+#>  [8] "g_Coprococcus"                           
+#>  [9] "g_Paraprevotella"                        
+#> [10] "f_Peptostreptococcaceae_g_Incertae_Sedis"
+#> [11] "g_Sutterella"                            
+#> [12] "g_RC9_gut_group"                         
+#> [13] "g_Brachyspira"
 ```
 
 ## Interpretation of the LDA results
@@ -256,11 +260,11 @@ nb_5$b1
 Impact of the nearest balance in the total shift
 
 ``` r
-nb_5$impactsdthf
+nb_5$impacts
 #> NULL
 ```
 
-Interpretation of the mean shift in the sample
+## Interpretation of the mean shift in the sample
 
 ``` r
 nb <- nb_mean_shift(abundance, pairs$before, pairs$after, "two_balances")
@@ -274,6 +278,18 @@ arrows(mean(nb$coord[pairs$before, "b1"]),
 ```
 
 <img src="man/figures/README-unnamed-chunk-7-1.png" width="100%" />
+
+Statistical significance of the shift
+
+``` r
+summary(manova(nb$lm_res),intercept = T)
+#>              Df Pillai approx F num Df den Df    Pr(>F)    
+#> (Intercept)   1 0.6655   6.5239     43    141 < 2.2e-16 ***
+#> Residuals   183                                            
+#> ---
+#> Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+```
+
 Members of the nearest balance to the mean shift
 
 ``` r
@@ -296,4 +312,11 @@ Impact
 nb$nb$impacts
 #>        b1        b2 
 #> 0.8387473 0.1143482
+```
+
+Proportion of noise in data to the mean shift
+
+``` r
+nb$noise
+#> [1] 0.1634847
 ```

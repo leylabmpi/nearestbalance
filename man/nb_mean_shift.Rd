@@ -12,7 +12,7 @@ nb_mean_shift(x)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{abundance}{table of taxa relative abundances with samples as rows and taxa as columns}
-  \item{samp_1, sampl_2}{ names of "start" and "end" samples for the shifts in the sampe order}
+  \item{samp_1, samp_2}{ names of "start" and "end" samples for the shifts in the sampe order}
   \item{type}{type of output: "one_balance", "two_balances", or "tree".}
   \item{bal_list}{only if \code{type == "one_balance"}. If \code{True} the best balance for each total number of taxa in it (from 2 to all) will be returned}
   \item{plot_list}{only if \code{bal_list == T}. If \code{True} the impacts for the balances list will be plotted}
@@ -50,6 +50,8 @@ abundance <- cmultRepl(counts_filt)
 meta <- HFD[, c("sample_id", "subject_id", "group")]
 pairs <- dcast(meta, subject_id ~ group, value.var = "sample_id")
 nb <- nb_mean_shift(abundance, pairs$before, pairs$after, "two_balances")
+
+summary(manova(nb$lm_res),intercept= T)
 
 plot(nb$coord$b1, nb$coord$b2, col = as.factor(HFD$group), xlab = "b1", ylab = "b2")
 arrows(mean(nb$coord[pairs$before, "b1"]),

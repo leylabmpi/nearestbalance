@@ -7,8 +7,9 @@ cos_xy   <- function(x,y){
 calculate_sblm_summary <- function(nb_sbp,
                                    lm_ilr,
                                    lm_psi,
-                                   lm_res){
-  lm_coef <- coefficients(lm_res)[2,]
+                                   lm_res,
+                                   row_i = 2){
+  lm_coef <- coefficients(lm_res)[row_i,]
   lm_coef_clr <- drop(lm_coef %*% lm_psi)
   lm_coef_norm <- drop(sqrt(lm_coef %*% lm_coef))
 
@@ -25,14 +26,20 @@ calculate_sblm_summary <- function(nb_sbp,
     t( balancing_elements_clr)  %*% t(lm_psi)
 
   mm = model.matrix(lm_res)
-  y <- lm_ilr- matrix(mm[,2]) %*% sb_coefficient
+  y <- lm_ilr- matrix(mm[,row_i]) %*% sb_coefficient
   if(ncol(mm) > 2){
     other_coefficients <- coefficients(lm(y ~ ., data.table(mm)[,-c(1,2)]))
+  } else if (ncol(mm) == 1){
+    other_coefficients <- NULL
   } else {
     other_coefficients <- coefficients(lm(y ~ 1))
   }
   sblm_coefficients <- rbind(sb_coefficient, other_coefficients)
-  rownames(sblm_coefficients)[1] <- colnames(mm)[2]
+  if(ncol(mm) == 1){
+    rownames(sblm_coefficients)[1] <- colnames(mm)[1]
+  } else{
+    rownames(sblm_coefficients)[1] <- colnames(mm)[2]
+  }
   sblm_coefficients <- sblm_coefficients[colnames(mm),]
 
   prediction <- as.matrix(mm) %*% sblm_coefficients
@@ -50,7 +57,8 @@ calculate_sblm_summary <- function(nb_sbp,
 nb_lm <- function(abundance, metadata, pred,
                   cov = NULL,
                   sbp = sbp.fromRandom(abundance),
-                  type = c("one_balance", "two_balances", "tree")){
+                  type = c("one_balance", "two_balances", "tree"),
+                  bal_list = F, plot_list = F){
 
   if(class(metadata[[pred]]) %in% c("caracter", "factor") &
      length(unique(metadata[[pred]])) != 2){
@@ -74,13 +82,9 @@ nb_lm <- function(abundance, metadata, pred,
                                    lm_ilr = ilr,
                                    lm_psi = psi,
                                    lm_res = lm_res)
-  if (type == "two_balances"){
-    nb = find_two_nearest_balances(lm_coef, psi)
-  } else if (type == "tree"){
-    nb = find_nearest_balance_tree(lm_coef, psi)
-  } else if (type != "one_balance"){
-    stop("incorrect type of analysis")
-  }
+
+  nb <- nb_shift_ilr(v = lm_coef, sbp = sbp, type = match.arg(type),
+                     bal_list = bal_list, plot_list = plot_list)
 
   # sigma_sq <- sum(diag(cov(lm_res$residuals)))
   # X <- model.matrix(lm_res)
