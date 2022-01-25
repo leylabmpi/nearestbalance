@@ -12,8 +12,8 @@ find_two_nearest_balances <- function(vect_ilr, psi, vect_ilr_2 = vect_ilr) {
   )]
   features_not_in_balance <- sort(features_not_in_balance, decreasing = T)
 
-  best_bal_pos <- find_nearest_balance_clr(clr_vect[first_bal$num], "b2")
-  best_bal_neg <- find_nearest_balance_clr(clr_vect[first_bal$den], "b2")
+  best_bal_pos <- find_nearest_balance_clr(clr_vect[first_bal$b1$num], "b2")
+  best_bal_neg <- find_nearest_balance_clr(clr_vect[first_bal$b1$den], "b2")
   balances <- list(pos = best_bal_pos, neg = best_bal_neg)
   balances <- balances[!is.na(balances)]
 
@@ -54,7 +54,8 @@ find_two_nearest_balances <- function(vect_ilr, psi, vect_ilr_2 = vect_ilr) {
       neg <- x$features[D:(D - r_s["col"] + 1)]
       impact <- best_proj**2 / drop(clr_vect %*% clr_vect)
       bal_sbp <- balance_to_sbp(names(clr_vect), names(pos), names(neg), "b2")
-      list(num = names(pos), den = names(neg), impact = impact, sbp = bal_sbp)
+      list(b1 = list(num = names(pos), den = names(neg)),
+           impact = impact, sbp = bal_sbp)
     })
     balances[["mixed_a"]] <- ll_best$a
     balances[["mixed_b"]] <- ll_best$b
@@ -62,9 +63,9 @@ find_two_nearest_balances <- function(vect_ilr, psi, vect_ilr_2 = vect_ilr) {
 
   # the impact in balances is unrelevant
   balances <- lapply(balances, function(bal) {
-    r <- length(bal$num)
-    s <- length(bal$den)
-    proj <- sqrt(r * s / (r + s)) * (mean(clr_vect[bal$num]) - mean(clr_vect[bal$den]))
+    r <- length(bal$b1$num)
+    s <- length(bal$b1$den)
+    proj <- sqrt(r * s / (r + s)) * (mean(clr_vect[bal$b1$num]) - mean(clr_vect[bal$b1$den]))
     bal$impact <- drop(proj**2 / (clr_vect %*% clr_vect))
     bal$coord <- proj
     bal
@@ -81,7 +82,7 @@ find_two_nearest_balances <- function(vect_ilr, psi, vect_ilr_2 = vect_ilr) {
 
   list(
     b1 = first_bal$b1,
-    b2 = best_bal[c("num", "den")],
+    b2 = best_bal$b1[c("num", "den")],
     sbp = sbp,
     impacts = c(b1 = first_bal$impact, b2 = best_bal$impact),
     coord = c(b1 = first_bal$coord, b2 = best_bal$coord)
