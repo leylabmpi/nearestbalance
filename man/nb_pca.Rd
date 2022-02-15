@@ -37,9 +37,11 @@ nb_pca(abundance)
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-library(selbal)
+require(selbal)
+
 abundance <- cmultRepl(selbal::HIV[1:60])
 nb <- nb_pca(abundance)
+plot_nb_pca(nb, colour = HIV$HIV_Status, pch = HIV$MSM)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory (show via RShowDoc("KEYWORDS")):

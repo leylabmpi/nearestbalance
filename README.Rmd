@@ -20,19 +20,19 @@ knitr::opts_chunk$set(
 
 The goal of NearestBalance is to ...
 
-## Installation
+<!-- ## Installation -->
 
-You can install the released version of NearestBalance from [CRAN](https://CRAN.R-project.org) with:
+<!-- You can install the released version of NearestBalance from [CRAN](https://CRAN.R-project.org) with: -->
 
-``` r
-install.packages("NearestBalance")
-```
+<!-- ``` r -->
+<!-- install.packages("NearestBalance") -->
+<!-- ``` -->
 
 ## Quick start guide
 
 Load data for the example
 
-``` {r example, warning=FALSE, verbose=FALSE}
+``` {r example, warning=FALSE, verbose=FALSE, echo=FALSE}
 library(NearestBalance)
 library(zCompositions)
 library(reshape2)
@@ -43,7 +43,7 @@ abundance <- cmultRepl(test_data)
 
 
 ## Principal balance analysis with NearestBalance
-``` {r PBA}
+``` {r PBA, echo = FALSE}
 nb_1 <- nb_pca(abundance)
 plot_nb_pca(nb_1, colour = HIV$MSM, pch = HIV$HIV_Status)
 
@@ -112,7 +112,7 @@ nb_5$b1
 
 Impact of the nearest balance in the total shift
 ```{r}
-nb_5$impacts
+nb_5$impact
 ```
 
 

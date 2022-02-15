@@ -40,8 +40,8 @@ nb_mean_shift(x)
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-library(zCompositions)
-library(reshape2)
+require(zCompositions)
+require(reshape2)
 
 counts <- HFD[1:193]
 counts_filt <- counts[, colSums(counts > 0) > 0.5*nrow(counts)]
@@ -53,7 +53,8 @@ nb <- nb_mean_shift(abundance, pairs$before, pairs$after, "two_balances")
 
 summary(manova(nb$lm_res),intercept= T)
 
-plot(nb$coord$b1, nb$coord$b2, col = as.factor(HFD$group), xlab = "b1", ylab = "b2")
+plot(nb$coord$b1, nb$coord$b2, col = as.factor(HFD$group),
+xlab = "b1", ylab = "b2", asp =1)
 arrows(mean(nb$coord[pairs$before, "b1"]),
   mean(nb$coord[pairs$before, "b2"]),
   mean(nb$coord[pairs$before, "b1"]) + nb$nb$coord["b1"],

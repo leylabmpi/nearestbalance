@@ -44,8 +44,9 @@ nb_svm(abundance, f, type = c("one_balance", "two_balances", "tree"), sbp = sbp.
   abundance <- cmultRepl(selbal::HIV[1:60])
   nb <- nb_svm(abundance,
               f = HIV$HIV_Status,
-              cov = NULL,
               type = "two_balances")
+  ilr <- balance.fromSBP(abundance, nb$nb$sbp)
+  plot(b2 ~ b1, ilr, asp =1, col = HIV$HIV_Status)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory (show via RShowDoc("KEYWORDS")):

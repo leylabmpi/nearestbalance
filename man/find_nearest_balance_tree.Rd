@@ -58,8 +58,7 @@ vect_clr <-c(v1=-0.1, v2=-0.8, v3=-0.1, v4=0.6, v5=0.1, v6=0.9, v7=-0.6, v8=0.9)
 psi <- make_default_psi(names(vect_clr))
 vect_ilr <- drop(vect_clr %*% t(psi))
 nb_all <- find_nearest_balance_tree(vect_ilr, psi)
-res_tree <- get_tree_structure(nb_all$nb_tree, do_nice_names = F)
-plot_tree(res_tree)
+plot_tree(nb_all$nb_tree)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory (show via RShowDoc("KEYWORDS")):

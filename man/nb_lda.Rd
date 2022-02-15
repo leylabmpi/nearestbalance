@@ -41,11 +41,14 @@ nb_lda(abundance, f, type = c("one_balance", "two_balances", "tree"), sbp = sbp.
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-  library(selbal)
-  abundance <- cmultRepl(selbal::HIV[1:60])
+  require(selbal)
+  require(balance)
+  abundance <- cmultRepl(HIV[1:60])
   nb <- nb_lda(abundance,
               f = HIV$HIV_Status,
               type = "two_balances")
+  ilr <- balance.fromSBP(abundance, nb$nb$sbp)
+  plot(b2~b1, data = ilr, col = HIV$HIV_Status, asp=1)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory (show via RShowDoc("KEYWORDS")):

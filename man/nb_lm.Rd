@@ -43,14 +43,31 @@ nb_lm(abundance, metadata, f, cov, sbp = sbp.fromRandom(abundance), type = c("on
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-library(selbal)
-library(zCompositions)
+require(selbal)
+require(zCompositions)
+require(balance)
+
 abundance <- cmultRepl(selbal::HIV[1:60])
 nb <- nb_lm(abundance = abundance,
             metadata = HIV,
-            pred = "HIV_Status",
-            cov = NULL,
+            pred = "MSM",
+            cov = "HIV_Status",
             type = "two_balances")
+
+# check statistical significance
+summary(manova(nb$lm_res))
+
+# plot results
+require(ggplot2)
+ilr <- balance.fromSBP(abundance, nb$nb$sbp)
+ggplot(data.frame(ilr), aes(b1,b2, col = HIV$MSM)) +
+  geom_point() +
+  coord_fixed() +
+  theme_minimal()
+
+# noise in the data compared to the size of the microbiome shift
+nb$noise
+
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory (show via RShowDoc("KEYWORDS")):

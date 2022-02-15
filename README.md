@@ -8,89 +8,69 @@
 
 The goal of NearestBalance is to …
 
-## Installation
-
-You can install the released version of NearestBalance from
-[CRAN](https://CRAN.R-project.org) with:
-
-``` r
-install.packages("NearestBalance")
-```
+<!-- ## Installation -->
+<!-- You can install the released version of NearestBalance from [CRAN](https://CRAN.R-project.org) with: -->
+<!-- ``` r -->
+<!-- install.packages("NearestBalance") -->
+<!-- ``` -->
 
 ## Quick start guide
 
 Load data for the example
 
-``` r
-library(NearestBalance)
-library(zCompositions)
-#> Loading required package: MASS
-#> Loading required package: NADA
-#> Loading required package: survival
-#> 
-#> Attaching package: 'NADA'
-#> The following object is masked from 'package:stats':
-#> 
-#>     cor
-#> Loading required package: truncnorm
-library(reshape2)
-library(selbal)
-test_data <- selbal::HIV[1:60]
-abundance <- cmultRepl(test_data)
-#> No. corrected values:  820
-```
+    #> Loading required package: MASS
+    #> Loading required package: NADA
+    #> Loading required package: survival
+    #> 
+    #> Attaching package: 'NADA'
+    #> The following object is masked from 'package:stats':
+    #> 
+    #>     cor
+    #> Loading required package: truncnorm
+    #> No. corrected values:  820
 
 ## Principal balance analysis with NearestBalance
 
-``` r
-nb_1 <- nb_pca(abundance)
-plot_nb_pca(nb_1, colour = HIV$MSM, pch = HIV$HIV_Status)
-```
-
 <img src="man/figures/README-PBA-1.png" width="100%" />
 
-``` r
-# first principal balance
-nb_1$nb$b1
-#> $num
-#>  [1] "g_Alloprevotella"                      
-#>  [2] "g_RC9_gut_group"                       
-#>  [3] "g_Prevotella"                          
-#>  [4] "f_vadinBB60_g_unclassified"            
-#>  [5] "g_Succinivibrio"                       
-#>  [6] "g_Oribacterium"                        
-#>  [7] "o_Bacteroidales_g_unclassified"        
-#>  [8] "k_Bacteria_g_unclassified"             
-#>  [9] "g_Dialister"                           
-#> [10] "g_Solobacterium"                       
-#> [11] "g_Catenibacterium"                     
-#> [12] "g_Victivallis"                         
-#> [13] "g_Anaerovibrio"                        
-#> [14] "g_Intestinimonas"                      
-#> [15] "f_Erysipelotrichaceae_g_Incertae_Sedis"
-#> [16] "f_Rikenellaceae_g_unclassified"        
-#> [17] "g_Anaerotruncus"                       
-#> [18] "g_Megasphaera"                         
-#> [19] "g_Phascolarctobacterium"               
-#> [20] "g_Mitsuokella"                         
-#> 
-#> $den
-#>  [1] "g_Alistipes"                         
-#>  [2] "g_Barnesiella"                       
-#>  [3] "g_Bacteroides"                       
-#>  [4] "g_Odoribacter"                       
-#>  [5] "g_Parabacteroides"                   
-#>  [6] "f_Porphyromonadaceae_g_unclassified" 
-#>  [7] "g_Thalassospira"                     
-#>  [8] "g_Butyricimonas"                     
-#>  [9] "g_Anaerostipes"                      
-#> [10] "g_Paraprevotella"                    
-#> [11] "f_Erysipelotrichaceae_g_unclassified"
-#> [12] "g_Streptococcus"                     
-#> [13] "g_Bifidobacterium"                   
-#> [14] "g_Blautia"                           
-#> [15] "g_Collinsella"
-```
+    #> $num
+    #>  [1] "g_Alloprevotella"                      
+    #>  [2] "g_RC9_gut_group"                       
+    #>  [3] "g_Prevotella"                          
+    #>  [4] "f_vadinBB60_g_unclassified"            
+    #>  [5] "g_Succinivibrio"                       
+    #>  [6] "g_Oribacterium"                        
+    #>  [7] "o_Bacteroidales_g_unclassified"        
+    #>  [8] "k_Bacteria_g_unclassified"             
+    #>  [9] "g_Dialister"                           
+    #> [10] "g_Solobacterium"                       
+    #> [11] "g_Catenibacterium"                     
+    #> [12] "g_Victivallis"                         
+    #> [13] "g_Anaerovibrio"                        
+    #> [14] "g_Intestinimonas"                      
+    #> [15] "f_Erysipelotrichaceae_g_Incertae_Sedis"
+    #> [16] "f_Rikenellaceae_g_unclassified"        
+    #> [17] "g_Anaerotruncus"                       
+    #> [18] "g_Megasphaera"                         
+    #> [19] "g_Phascolarctobacterium"               
+    #> [20] "g_Mitsuokella"                         
+    #> 
+    #> $den
+    #>  [1] "g_Alistipes"                         
+    #>  [2] "g_Barnesiella"                       
+    #>  [3] "g_Bacteroides"                       
+    #>  [4] "g_Odoribacter"                       
+    #>  [5] "g_Parabacteroides"                   
+    #>  [6] "f_Porphyromonadaceae_g_unclassified" 
+    #>  [7] "g_Thalassospira"                     
+    #>  [8] "g_Butyricimonas"                     
+    #>  [9] "g_Anaerostipes"                      
+    #> [10] "g_Paraprevotella"                    
+    #> [11] "f_Erysipelotrichaceae_g_unclassified"
+    #> [12] "g_Streptococcus"                     
+    #> [13] "g_Bifidobacterium"                   
+    #> [14] "g_Blautia"                           
+    #> [15] "g_Collinsella"
 
 ## Regression analysis
 
@@ -160,38 +140,31 @@ The nearest balance for the discriminating direction
 nb_3$nb$b1
 #> $num
 #>  [1] "f_Ruminococcaceae_g_unclassified"    
-#>  [2] "f_Erysipelotrichaceae_g_unclassified"
-#>  [3] "g_Bacteroides"                       
-#>  [4] "g_Succinivibrio"                     
-#>  [5] "g_Megasphaera"                       
-#>  [6] "g_Alloprevotella"                    
-#>  [7] "g_Alistipes"                         
-#>  [8] "g_Blautia"                           
-#>  [9] "g_Solobacterium"                     
-#> [10] "g_Subdoligranulum"                   
-#> [11] "f_Defluviitaleaceae_g_Incertae_Sedis"
-#> [12] "o_Clostridiales_g_unclassified"      
+#>  [2] "g_Bacteroides"                       
+#>  [3] "g_Succinivibrio"                     
+#>  [4] "f_Erysipelotrichaceae_g_unclassified"
+#>  [5] "g_Alistipes"                         
+#>  [6] "f_Defluviitaleaceae_g_Incertae_Sedis"
+#>  [7] "g_Blautia"                           
+#>  [8] "g_Alloprevotella"                    
+#>  [9] "o_Clostridiales_g_unclassified"      
+#> [10] "g_Megasphaera"                       
+#> [11] "g_Solobacterium"                     
+#> [12] "g_Subdoligranulum"                   
 #> [13] "f_Rikenellaceae_g_unclassified"      
-#> [14] "g_Bifidobacterium"                   
-#> [15] "g_Escherichia-Shigella"              
-#> [16] "g_Anaerovibrio"                      
-#> [17] "g_Odoribacter"                       
-#> [18] "g_Anaerotruncus"                     
+#> [14] "g_Anaerovibrio"                      
+#> [15] "g_Odoribacter"                       
+#> [16] "g_Escherichia-Shigella"              
+#> [17] "g_Bifidobacterium"                   
 #> 
 #> $den
-#>  [1] "g_Butyricimonas"                         
-#>  [2] "f_Ruminococcaceae_g_Incertae_Sedis"      
-#>  [3] "g_Oribacterium"                          
-#>  [4] "g_Streptococcus"                         
-#>  [5] "g_Dorea"                                 
-#>  [6] "g_Dialister"                             
-#>  [7] "g_Anaeroplasma"                          
-#>  [8] "g_Coprococcus"                           
-#>  [9] "g_Paraprevotella"                        
-#> [10] "f_Peptostreptococcaceae_g_Incertae_Sedis"
-#> [11] "g_Sutterella"                            
-#> [12] "g_RC9_gut_group"                         
-#> [13] "g_Brachyspira"
+#>  [1] "g_Butyricimonas"                    "f_Ruminococcaceae_g_Incertae_Sedis"
+#>  [3] "g_Streptococcus"                    "g_Oribacterium"                    
+#>  [5] "g_Dialister"                        "g_Dorea"                           
+#>  [7] "g_Anaeroplasma"                     "f_vadinBB60_g_unclassified"        
+#>  [9] "g_RC9_gut_group"                    "g_Paraprevotella"                  
+#> [11] "g_Brachyspira"                      "g_Elusimicrobium"                  
+#> [13] "f_Lachnospiraceae_g_unclassified"
 ```
 
 ## Interpretation of the LDA results
@@ -260,8 +233,8 @@ nb_5$b1
 Impact of the nearest balance in the total shift
 
 ``` r
-nb_5$impacts
-#> NULL
+nb_5$impact
+#> [1] 0.8009809
 ```
 
 ## Interpretation of the mean shift in the sample
