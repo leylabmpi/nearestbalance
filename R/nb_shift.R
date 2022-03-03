@@ -17,7 +17,6 @@ nb_shift_ilr <- function(v,
     res <- find_two_nearest_balances(v, psi, v2)
   } else if (type == "tree"){
     res <- find_nearest_balance_tree(v, psi)
-    res$bal_list <- lapply(res$sbp, )
   } else{
     stop("incorrect type of analysis")
   }
