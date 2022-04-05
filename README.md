@@ -1,18 +1,15 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# NearestBalance
+## Installation
 
-<!-- badges: start -->
-<!-- badges: end -->
+You can install the released version of NearestBalance from
+[CRAN](https://CRAN.R-project.org) with:
 
-The goal of NearestBalance is to …
-
-<!-- ## Installation -->
-<!-- You can install the released version of NearestBalance from [CRAN](https://CRAN.R-project.org) with: -->
-<!-- ``` r -->
-<!-- install.packages("NearestBalance") -->
-<!-- ``` -->
+``` r
+require(devtools)
+install_bitbucket("knomics/nearestbalance")  
+```
 
 ## Quick start guide
 
@@ -143,28 +140,32 @@ nb_3$nb$b1
 #>  [2] "g_Bacteroides"                       
 #>  [3] "g_Succinivibrio"                     
 #>  [4] "f_Erysipelotrichaceae_g_unclassified"
-#>  [5] "g_Alistipes"                         
-#>  [6] "f_Defluviitaleaceae_g_Incertae_Sedis"
-#>  [7] "g_Blautia"                           
-#>  [8] "g_Alloprevotella"                    
-#>  [9] "o_Clostridiales_g_unclassified"      
-#> [10] "g_Megasphaera"                       
-#> [11] "g_Solobacterium"                     
-#> [12] "g_Subdoligranulum"                   
+#>  [5] "g_Subdoligranulum"                   
+#>  [6] "g_Alloprevotella"                    
+#>  [7] "g_Solobacterium"                     
+#>  [8] "g_Blautia"                           
+#>  [9] "f_Defluviitaleaceae_g_Incertae_Sedis"
+#> [10] "g_Anaerovibrio"                      
+#> [11] "g_Alistipes"                         
+#> [12] "o_Clostridiales_g_unclassified"      
 #> [13] "f_Rikenellaceae_g_unclassified"      
-#> [14] "g_Anaerovibrio"                      
-#> [15] "g_Odoribacter"                       
+#> [14] "g_Megasphaera"                       
+#> [15] "g_Prevotella"                        
 #> [16] "g_Escherichia-Shigella"              
-#> [17] "g_Bifidobacterium"                   
+#> [17] "g_Odoribacter"                       
 #> 
 #> $den
-#>  [1] "g_Butyricimonas"                    "f_Ruminococcaceae_g_Incertae_Sedis"
-#>  [3] "g_Streptococcus"                    "g_Oribacterium"                    
-#>  [5] "g_Dialister"                        "g_Dorea"                           
-#>  [7] "g_Anaeroplasma"                     "f_vadinBB60_g_unclassified"        
-#>  [9] "g_RC9_gut_group"                    "g_Paraprevotella"                  
-#> [11] "g_Brachyspira"                      "g_Elusimicrobium"                  
-#> [13] "f_Lachnospiraceae_g_unclassified"
+#>  [1] "g_Butyricimonas"                         
+#>  [2] "f_Ruminococcaceae_g_Incertae_Sedis"      
+#>  [3] "g_Oribacterium"                          
+#>  [4] "g_Dialister"                             
+#>  [5] "g_Streptococcus"                         
+#>  [6] "g_RC9_gut_group"                         
+#>  [7] "g_Anaeroplasma"                          
+#>  [8] "f_vadinBB60_g_unclassified"              
+#>  [9] "g_Dorea"                                 
+#> [10] "f_Peptostreptococcaceae_g_Incertae_Sedis"
+#> [11] "o_Bacteroidales_g_unclassified"
 ```
 
 ## Interpretation of the LDA results
