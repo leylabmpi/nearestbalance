@@ -7,7 +7,7 @@ nb_pca <- function(abundance){
   nb_pca <- find_two_nearest_balances(
     vect_ilr = pca$rotation[,1],
     psi = psi,
-    vect_ilr_2 = pca$rotation[,1]
+    vect_ilr_2 = pca$rotation[,2]
   )
   coord = as.data.frame(balance.fromSBP(abundance, nb_pca$sbp))
   rownames(coord) <- rownames(abundance)
