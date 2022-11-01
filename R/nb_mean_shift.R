@@ -11,7 +11,11 @@ nb_mean_shift <- function(abundance,
   rownames(ilr) <- c(samp_1, samp_2)
   diff <- ilr[samp_2,] - ilr[samp_1,]
 
-  lm_res = lm(diff ~ 1)
+  if (is.null(cov)){
+    lm_res = lm(diff ~ 1)
+  } else{
+    lm_res = lm(diff ~ cov)
+  }
 
   mean_diff <- coefficients(lm_res)[1,]
   nb <- nb_shift_ilr(v = mean_diff, sbp = sbp, type = match.arg(type),

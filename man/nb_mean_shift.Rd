@@ -12,8 +12,9 @@ nb_mean_shift(x)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{abundance}{table of taxa relative abundances with samples as rows and taxa as columns}
-  \item{samp_1, samp_2}{ names of "start" and "end" samples for the shifts in the sampe order}
+  \item{samp_1, samp_2}{ names of "start" and "end" samples for the shifts in the same order}
   \item{type}{type of output: "one_balance", "two_balances", or "tree".}
+  \item{cov}{a covariate. Vector of values of the same lengths as the vectors samp_1 and samp_2}
   \item{bal_list}{only if \code{type == "one_balance"}. If \code{True} the best balance for each total number of taxa in it (from 2 to all) will be returned}
   \item{plot_list}{only if \code{bal_list == T}. If \code{True} the impacts for the balances list will be plotted}
 }
