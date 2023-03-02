@@ -23,7 +23,7 @@ if (! "balance" %in% installed.packages()){
 Install the package:
 
 ``` r
-devtools::install_bitbucket("knomics/nearestbalancedev")  
+devtools::install_bitbucket("knomics/nearestbalance")  
 ```
 
 ## Quick start guide
@@ -199,28 +199,35 @@ The nearest balance for the discriminating direction
 nb_3$nb$b1
 #> $num
 #>  [1] "f_Ruminococcaceae_g_unclassified"    
-#>  [2] "g_Alloprevotella"                    
+#>  [2] "g_Bacteroides"                       
 #>  [3] "g_Succinivibrio"                     
-#>  [4] "f_Erysipelotrichaceae_g_unclassified"
-#>  [5] "g_Bacteroides"                       
-#>  [6] "f_Defluviitaleaceae_g_Incertae_Sedis"
-#>  [7] "o_Clostridiales_g_unclassified"      
-#>  [8] "g_Alistipes"                         
-#>  [9] "g_Megasphaera"                       
-#> [10] "g_Blautia"                           
-#> [11] "g_Anaerovibrio"                      
-#> [12] "g_Subdoligranulum"                   
-#> [13] "f_Rikenellaceae_g_unclassified"      
-#> [14] "g_Solobacterium"                     
-#> [15] "g_Bifidobacterium"                   
-#> [16] "g_Escherichia-Shigella"              
+#>  [4] "g_Subdoligranulum"                   
+#>  [5] "f_Erysipelotrichaceae_g_unclassified"
+#>  [6] "g_Anaerovibrio"                      
+#>  [7] "g_Alloprevotella"                    
+#>  [8] "g_Blautia"                           
+#>  [9] "g_Alistipes"                         
+#> [10] "f_Defluviitaleaceae_g_Incertae_Sedis"
+#> [11] "o_Clostridiales_g_unclassified"      
+#> [12] "g_Megasphaera"                       
+#> [13] "g_Solobacterium"                     
+#> [14] "g_Bifidobacterium"                   
+#> [15] "g_Escherichia-Shigella"              
 #> 
 #> $den
-#>  [1] "g_Butyricimonas"                    "f_Ruminococcaceae_g_Incertae_Sedis"
-#>  [3] "g_Oribacterium"                     "g_Streptococcus"                   
-#>  [5] "g_Dialister"                        "g_RC9_gut_group"                   
-#>  [7] "g_Anaeroplasma"                     "f_vadinBB60_g_unclassified"        
-#>  [9] "g_Collinsella"                      "o_Bacteroidales_g_unclassified"
+#>  [1] "g_Butyricimonas"                         
+#>  [2] "f_Ruminococcaceae_g_Incertae_Sedis"      
+#>  [3] "g_Oribacterium"                          
+#>  [4] "g_Dorea"                                 
+#>  [5] "g_Streptococcus"                         
+#>  [6] "g_Dialister"                             
+#>  [7] "f_vadinBB60_g_unclassified"              
+#>  [8] "g_Anaeroplasma"                          
+#>  [9] "g_Brachyspira"                           
+#> [10] "g_RC9_gut_group"                         
+#> [11] "o_Bacteroidales_g_unclassified"          
+#> [12] "f_Peptostreptococcaceae_g_Incertae_Sedis"
+#> [13] "g_Thalassospira"
 ```
 
 ## Interpretation of the LDA results
