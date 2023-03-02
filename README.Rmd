@@ -17,12 +17,15 @@ knitr::opts_chunk$set(
 ## Installation
 
 Install dependences if needed:
-``` r
-cran_packages <- c("data.tree", "data.table", "stringr",
-                    "e1071", "ggplot2", "partitions", "devtools",
-                    "reshape2", "forcats", "ggh4x")
-cran_packages_to_install <- setdiff(cran_packages, installed.packages())
-install.packages(cran_packages_to_install)
+``` {r}
+cran_pckgs <- c("data.tree", "data.table", "stringr",
+                "e1071", "ggplot2", "partitions", "devtools",
+                "reshape2", "forcats", "ggh4x")
+cran_pckgs <- setdiff(cran_pckgs, installed.packages())
+
+if (length(cran_pckgs) >0){
+  install.packages(cran_pckgs)
+}
 
 if (! "balance" %in% installed.packages()){
   devtools::install_github("tpq/balance")
@@ -30,13 +33,16 @@ if (! "balance" %in% installed.packages()){
 ```
 Install the package:
 ``` r 
-devtools::install_bitbucket("knomics/nearestbalance")  
+devtools::install_bitbucket("knomics/nearestbalancedev")  
 ```
 ## Quick start guide
 Please, install several packages to run the examples:
 ``` {r installstion_for_example, warning=FALSE, verbose=FALSE}
-packages_for_example <- c("selbal", "zCompositions")
-install.packages(setdiff(packages_for_example, installed.packages()))
+pckgs_for_example <- setdiff(c("selbal", "zCompositions"),installed.packages())
+
+if (length(pckgs_for_example) > 0){
+  install.packages(pckgs_for_example)  
+}
 ```
 
 Load data for the example

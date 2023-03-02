@@ -6,11 +6,14 @@
 Install dependences if needed:
 
 ``` r
-cran_packages <- c("data.tree", "data.table", "stringr",
-                    "e1071", "ggplot2", "partitions", "devtools",
-                    "reshape2", "forcats", "ggh4x")
-cran_packages_to_install <- setdiff(cran_packages, installed.packages())
-install.packages(cran_packages_to_install)
+cran_pckgs <- c("data.tree", "data.table", "stringr",
+                "e1071", "ggplot2", "partitions", "devtools",
+                "reshape2", "forcats", "ggh4x")
+cran_pckgs <- setdiff(cran_pckgs, installed.packages())
+
+if (length(cran_pckgs) >0){
+  install.packages(cran_pckgs)
+}
 
 if (! "balance" %in% installed.packages()){
   devtools::install_github("tpq/balance")
@@ -20,7 +23,7 @@ if (! "balance" %in% installed.packages()){
 Install the package:
 
 ``` r
-devtools::install_bitbucket("knomics/nearestbalance")  
+devtools::install_bitbucket("knomics/nearestbalancedev")  
 ```
 
 ## Quick start guide
@@ -28,14 +31,32 @@ devtools::install_bitbucket("knomics/nearestbalance")
 Please, install several packages to run the examples:
 
 ``` r
-packages_for_example <- c("selbal", "zCompositions")
-install.packages(setdiff(packages_for_example, installed.packages()))
+pckgs_for_example <- setdiff(c("selbal", "zCompositions"),installed.packages())
+
+if (length(pckgs_for_example) > 0){
+  install.packages(pckgs_for_example)  
+}
 ```
 
 Load data for the example
 
 ``` r
 library(NearestBalance)
+#> Loading required package: data.table
+#> Loading required package: partitions
+#> Loading required package: balance
+#> Loading required package: stringr
+#> Loading required package: data.tree
+#> Loading required package: e1071
+#> Loading required package: ggplot2
+#> Loading required package: forcats
+#> Loading required package: reshape2
+#> 
+#> Attaching package: 'reshape2'
+#> The following objects are masked from 'package:data.table':
+#> 
+#>     dcast, melt
+#> Loading required package: ggh4x
 library(zCompositions)
 #> Loading required package: MASS
 #> Loading required package: NADA
@@ -178,39 +199,28 @@ The nearest balance for the discriminating direction
 nb_3$nb$b1
 #> $num
 #>  [1] "f_Ruminococcaceae_g_unclassified"    
-#>  [2] "g_Bacteroides"                       
-#>  [3] "g_Subdoligranulum"                   
+#>  [2] "g_Alloprevotella"                    
+#>  [3] "g_Succinivibrio"                     
 #>  [4] "f_Erysipelotrichaceae_g_unclassified"
-#>  [5] "g_Alloprevotella"                    
-#>  [6] "g_Alistipes"                         
-#>  [7] "g_Succinivibrio"                     
-#>  [8] "g_Blautia"                           
-#>  [9] "g_Odoribacter"                       
-#> [10] "f_Defluviitaleaceae_g_Incertae_Sedis"
-#> [11] "g_Megasphaera"                       
-#> [12] "g_Solobacterium"                     
-#> [13] "g_Anaerovibrio"                      
-#> [14] "o_Clostridiales_g_unclassified"      
+#>  [5] "g_Bacteroides"                       
+#>  [6] "f_Defluviitaleaceae_g_Incertae_Sedis"
+#>  [7] "o_Clostridiales_g_unclassified"      
+#>  [8] "g_Alistipes"                         
+#>  [9] "g_Megasphaera"                       
+#> [10] "g_Blautia"                           
+#> [11] "g_Anaerovibrio"                      
+#> [12] "g_Subdoligranulum"                   
+#> [13] "f_Rikenellaceae_g_unclassified"      
+#> [14] "g_Solobacterium"                     
 #> [15] "g_Bifidobacterium"                   
-#> [16] "f_Rikenellaceae_g_unclassified"      
-#> [17] "o_NB1-n_g_unclassified"              
+#> [16] "g_Escherichia-Shigella"              
 #> 
 #> $den
-#>  [1] "g_Butyricimonas"                         
-#>  [2] "f_Ruminococcaceae_g_Incertae_Sedis"      
-#>  [3] "g_Oribacterium"                          
-#>  [4] "g_Streptococcus"                         
-#>  [5] "g_Dialister"                             
-#>  [6] "g_Coprococcus"                           
-#>  [7] "g_Anaeroplasma"                          
-#>  [8] "f_Peptostreptococcaceae_g_Incertae_Sedis"
-#>  [9] "g_RC9_gut_group"                         
-#> [10] "g_Paraprevotella"                        
-#> [11] "f_vadinBB60_g_unclassified"              
-#> [12] "g_Brachyspira"                           
-#> [13] "c_Alphaproteobacteria_g_unclassified"    
-#> [14] "g_Dorea"                                 
-#> [15] "g_Faecalibacterium"
+#>  [1] "g_Butyricimonas"                    "f_Ruminococcaceae_g_Incertae_Sedis"
+#>  [3] "g_Oribacterium"                     "g_Streptococcus"                   
+#>  [5] "g_Dialister"                        "g_RC9_gut_group"                   
+#>  [7] "g_Anaeroplasma"                     "f_vadinBB60_g_unclassified"        
+#>  [9] "g_Collinsella"                      "o_Bacteroidales_g_unclassified"
 ```
 
 ## Interpretation of the LDA results
@@ -297,7 +307,7 @@ arrows(mean(nb$coord[pairs$before, "b1"]),
   lwd =3)
 ```
 
-<img src="man/figures/README-unnamed-chunk-7-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-8-1.png" width="100%" />
 
 Statistical significance of the shift
 
