@@ -3,34 +3,77 @@
 
 ## Installation
 
-You can install the released version of NearestBalance from
-[CRAN](https://CRAN.R-project.org) with:
+Install dependences if needed:
 
 ``` r
-require(devtools)
-install_bitbucket("knomics/nearestbalance")  
+cran_packages <- c("data.tree", "data.table", "stringr",
+                    "e1071", "ggplot2", "partitions", "devtools")
+cran_packages_to_install <- setdiff(cran_packages, installed.packages())
+install.packages(cran_packages_to_install)
+
+if (! "balance" %in% installed.packages()){
+  devtools::install_github("tpq/balance")
+}
+```
+
+Install the package:
+
+``` r
+devtools::install_bitbucket("knomics/nearestbalance")  
 ```
 
 ## Quick start guide
 
+Please, install several packages to run the examples:
+
+``` r
+packages_for_example <- c("selbal", "zCompositions", "reshape2")
+install.packages(setdiff(packages_for_example, installed.packages()))
+```
+
 Load data for the example
 
-    #> Loading required package: MASS
-    #> Loading required package: NADA
-    #> Loading required package: survival
-    #> 
-    #> Attaching package: 'NADA'
-    #> The following object is masked from 'package:stats':
-    #> 
-    #>     cor
-    #> Loading required package: truncnorm
-    #> No. corrected values:  820
+``` r
+library(NearestBalance)
+library(zCompositions)
+#> Loading required package: MASS
+#> Loading required package: NADA
+#> Loading required package: survival
+#> 
+#> Attaching package: 'NADA'
+#> The following object is masked from 'package:stats':
+#> 
+#>     cor
+#> Loading required package: truncnorm
+library(reshape2)
+library(selbal)
+test_data <- selbal::HIV[1:60]
+abundance <- cmultRepl(test_data)
+#> No. adjusted imputations:  820
+```
 
 ## Principal balance analysis with NearestBalance
 
 <img src="man/figures/README-PBA-1.png" width="100%" />
 
     #> $num
+    #>  [1] "g_Alistipes"                         
+    #>  [2] "g_Barnesiella"                       
+    #>  [3] "g_Bacteroides"                       
+    #>  [4] "g_Odoribacter"                       
+    #>  [5] "g_Parabacteroides"                   
+    #>  [6] "f_Porphyromonadaceae_g_unclassified" 
+    #>  [7] "g_Thalassospira"                     
+    #>  [8] "g_Butyricimonas"                     
+    #>  [9] "g_Anaerostipes"                      
+    #> [10] "g_Paraprevotella"                    
+    #> [11] "f_Erysipelotrichaceae_g_unclassified"
+    #> [12] "g_Streptococcus"                     
+    #> [13] "g_Bifidobacterium"                   
+    #> [14] "g_Blautia"                           
+    #> [15] "g_Collinsella"                       
+    #> 
+    #> $den
     #>  [1] "g_Alloprevotella"                      
     #>  [2] "g_RC9_gut_group"                       
     #>  [3] "g_Prevotella"                          
@@ -50,24 +93,7 @@ Load data for the example
     #> [17] "g_Anaerotruncus"                       
     #> [18] "g_Megasphaera"                         
     #> [19] "g_Phascolarctobacterium"               
-    #> [20] "g_Mitsuokella"                         
-    #> 
-    #> $den
-    #>  [1] "g_Alistipes"                         
-    #>  [2] "g_Barnesiella"                       
-    #>  [3] "g_Bacteroides"                       
-    #>  [4] "g_Odoribacter"                       
-    #>  [5] "g_Parabacteroides"                   
-    #>  [6] "f_Porphyromonadaceae_g_unclassified" 
-    #>  [7] "g_Thalassospira"                     
-    #>  [8] "g_Butyricimonas"                     
-    #>  [9] "g_Anaerostipes"                      
-    #> [10] "g_Paraprevotella"                    
-    #> [11] "f_Erysipelotrichaceae_g_unclassified"
-    #> [12] "g_Streptococcus"                     
-    #> [13] "g_Bifidobacterium"                   
-    #> [14] "g_Blautia"                           
-    #> [15] "g_Collinsella"
+    #> [20] "g_Mitsuokella"
 
 ## Regression analysis
 
@@ -139,33 +165,38 @@ nb_3$nb$b1
 #>  [1] "f_Ruminococcaceae_g_unclassified"    
 #>  [2] "g_Bacteroides"                       
 #>  [3] "g_Succinivibrio"                     
-#>  [4] "f_Erysipelotrichaceae_g_unclassified"
-#>  [5] "g_Subdoligranulum"                   
-#>  [6] "g_Alloprevotella"                    
-#>  [7] "g_Solobacterium"                     
-#>  [8] "g_Blautia"                           
-#>  [9] "f_Defluviitaleaceae_g_Incertae_Sedis"
+#>  [4] "g_Subdoligranulum"                   
+#>  [5] "f_Erysipelotrichaceae_g_unclassified"
+#>  [6] "g_Alistipes"                         
+#>  [7] "g_Alloprevotella"                    
+#>  [8] "o_Clostridiales_g_unclassified"      
+#>  [9] "g_Blautia"                           
 #> [10] "g_Anaerovibrio"                      
-#> [11] "g_Alistipes"                         
-#> [12] "o_Clostridiales_g_unclassified"      
-#> [13] "f_Rikenellaceae_g_unclassified"      
-#> [14] "g_Megasphaera"                       
-#> [15] "g_Prevotella"                        
-#> [16] "g_Escherichia-Shigella"              
+#> [11] "f_Defluviitaleaceae_g_Incertae_Sedis"
+#> [12] "f_Rikenellaceae_g_unclassified"      
+#> [13] "g_Megasphaera"                       
+#> [14] "g_Solobacterium"                     
+#> [15] "g_Escherichia-Shigella"              
+#> [16] "o_NB1-n_g_unclassified"              
 #> [17] "g_Odoribacter"                       
+#> [18] "g_Anaerotruncus"                     
 #> 
 #> $den
-#>  [1] "g_Butyricimonas"                         
-#>  [2] "f_Ruminococcaceae_g_Incertae_Sedis"      
+#>  [1] "f_Ruminococcaceae_g_Incertae_Sedis"      
+#>  [2] "g_Butyricimonas"                         
 #>  [3] "g_Oribacterium"                          
-#>  [4] "g_Dialister"                             
-#>  [5] "g_Streptococcus"                         
+#>  [4] "g_Streptococcus"                         
+#>  [5] "f_vadinBB60_g_unclassified"              
 #>  [6] "g_RC9_gut_group"                         
-#>  [7] "g_Anaeroplasma"                          
-#>  [8] "f_vadinBB60_g_unclassified"              
+#>  [7] "g_Dialister"                             
+#>  [8] "f_Peptostreptococcaceae_g_Incertae_Sedis"
 #>  [9] "g_Dorea"                                 
-#> [10] "f_Peptostreptococcaceae_g_Incertae_Sedis"
-#> [11] "o_Bacteroidales_g_unclassified"
+#> [10] "g_Thalassospira"                         
+#> [11] "g_Anaeroplasma"                          
+#> [12] "f_Erysipelotrichaceae_g_Incertae_Sedis"  
+#> [13] "g_Coprococcus"                           
+#> [14] "g_Elusimicrobium"                        
+#> [15] "g_Brachyspira"
 ```
 
 ## Interpretation of the LDA results
@@ -205,7 +236,8 @@ nb_4$nb$b1
 counts <- HFD[1:193]
 counts_filt <- counts[, colSums(counts > 0) > 0.5*nrow(counts)]
 abundance <- cmultRepl(counts_filt)
-#> No. corrected values:  866
+#> No. adjusted imputations:  866
+
 meta <- HFD[, c("sample_id", "subject_id", "group")]
 pairs <- dcast(meta, subject_id ~ group, value.var = "sample_id")
 
