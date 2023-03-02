@@ -3,7 +3,7 @@ heatmap_with_split <- function(abundance, metadata, formula=NULL,
                                num_name = "num", den_name = "den",
                                others_name = "others",
                                abund_limits = range(abundance),
-                               taxa_colors = c(), sample_col = NULL,
+                               sample_col = NULL,
                                show_samp_names = T){
 
   pl_type <- match.arg(type)
@@ -49,13 +49,13 @@ heatmap_with_split <- function(abundance, metadata, formula=NULL,
     facet_nested(formula, drop = T, scales = "free", space = "free") +
     xlab("") + ylab("")
 
-  if (length(taxa_colors)>0){
-    yticks <-
-      ggplot_build(pl)$layout$panel_scales_y[[1]]$get_labels()
-    colors <- taxa_colors[yticks]
-    pl <- pl +
-      theme(axis.text.y = element_text(colour = colors))
-  }
+  # if (length(taxa_colors)>0){
+  #   yticks <-
+  #     ggplot_build(pl)$layout$panel_scales_y[[1]]$get_labels()
+  #   colors <- taxa_colors[yticks]
+  #   pl <- pl +
+  #     theme(axis.text.y = element_text(colour = colors))
+  # }
 
   if (pl_type == "perc"){
     pl <- pl +

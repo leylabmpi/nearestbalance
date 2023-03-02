@@ -1,9 +1,9 @@
 Package: NearestBalance
 Type: Package
-Title: What the Package Does (Title Case)
-Version: 0.1.0
+Title: Tools for compositional data analysis based on nearest balance method
+Version: 0.2.0
 Author: V. Odintsova, N. Klimenko, A. Tyakht
 License: 
 Encoding: UTF-8
 LazyData: true
-Depends: 
+Depends: data.table, partitions, balance, stringr, data.tree, e1071, ggplot2, forcats, reshape2, ggh4x
