@@ -19,7 +19,8 @@ knitr::opts_chunk$set(
 Install dependences if needed:
 ``` r
 cran_packages <- c("data.tree", "data.table", "stringr",
-                    "e1071", "ggplot2", "partitions", "devtools")
+                    "e1071", "ggplot2", "partitions", "devtools",
+                    "reshape2", "forcats", "ggh4x")
 cran_packages_to_install <- setdiff(cran_packages, installed.packages())
 install.packages(cran_packages_to_install)
 
@@ -34,7 +35,7 @@ devtools::install_bitbucket("knomics/nearestbalance")
 ## Quick start guide
 Please, install several packages to run the examples:
 ``` {r installstion_for_example, warning=FALSE, verbose=FALSE}
-packages_for_example <- c("selbal", "zCompositions", "reshape2")
+packages_for_example <- c("selbal", "zCompositions")
 install.packages(setdiff(packages_for_example, installed.packages()))
 ```
 
@@ -43,7 +44,6 @@ Load data for the example
 ``` {r example, warning=FALSE, verbose=FALSE}
 library(NearestBalance)
 library(zCompositions)
-library(reshape2)
 library(selbal)
 test_data <- selbal::HIV[1:60]
 abundance <- cmultRepl(test_data)
@@ -76,6 +76,18 @@ nearest balance interpretation of the regression coefficient
 nb_2$nb$b1
 ```
 
+Heatmap:
+```{r lm heatmap, fig.height = 9, fig.width = 12}
+heatmap_with_split(abundance = abundance,
+                   metadata = HIV, 
+                   formula = ~ MSM + HIV_Status, 
+                   balance = nb_2$nb$b1,
+                   show_samp_names = F,
+                   num_name = "taxa_MSM",
+                   den_name = "taxa_nonMSM",
+                   others_name = "not assosiated with MSM")
+```
+
 ## Interpretation of the SVM results
 ``` {r svm}
 nb_3 <- nb_svm(abundance = abundance,
@@ -105,7 +117,7 @@ counts_filt <- counts[, colSums(counts > 0) > 0.5*nrow(counts)]
 abundance <- cmultRepl(counts_filt)
 
 meta <- HFD[, c("sample_id", "subject_id", "group")]
-pairs <- dcast(meta, subject_id ~ group, value.var = "sample_id")
+pairs <- reshape2::dcast(meta, subject_id ~ group, value.var = "sample_id")
 
 nb_5 <- nb_shift(abundance = abundance,
                  samp_1 = pairs$after[1],

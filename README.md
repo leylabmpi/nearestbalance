@@ -7,7 +7,8 @@ Install dependences if needed:
 
 ``` r
 cran_packages <- c("data.tree", "data.table", "stringr",
-                    "e1071", "ggplot2", "partitions", "devtools")
+                    "e1071", "ggplot2", "partitions", "devtools",
+                    "reshape2", "forcats", "ggh4x")
 cran_packages_to_install <- setdiff(cran_packages, installed.packages())
 install.packages(cran_packages_to_install)
 
@@ -27,7 +28,7 @@ devtools::install_bitbucket("knomics/nearestbalance")
 Please, install several packages to run the examples:
 
 ``` r
-packages_for_example <- c("selbal", "zCompositions", "reshape2")
+packages_for_example <- c("selbal", "zCompositions")
 install.packages(setdiff(packages_for_example, installed.packages()))
 ```
 
@@ -45,7 +46,6 @@ library(zCompositions)
 #> 
 #>     cor
 #> Loading required package: truncnorm
-library(reshape2)
 library(selbal)
 test_data <- selbal::HIV[1:60]
 abundance <- cmultRepl(test_data)
@@ -57,23 +57,6 @@ abundance <- cmultRepl(test_data)
 <img src="man/figures/README-PBA-1.png" width="100%" />
 
     #> $num
-    #>  [1] "g_Alistipes"                         
-    #>  [2] "g_Barnesiella"                       
-    #>  [3] "g_Bacteroides"                       
-    #>  [4] "g_Odoribacter"                       
-    #>  [5] "g_Parabacteroides"                   
-    #>  [6] "f_Porphyromonadaceae_g_unclassified" 
-    #>  [7] "g_Thalassospira"                     
-    #>  [8] "g_Butyricimonas"                     
-    #>  [9] "g_Anaerostipes"                      
-    #> [10] "g_Paraprevotella"                    
-    #> [11] "f_Erysipelotrichaceae_g_unclassified"
-    #> [12] "g_Streptococcus"                     
-    #> [13] "g_Bifidobacterium"                   
-    #> [14] "g_Blautia"                           
-    #> [15] "g_Collinsella"                       
-    #> 
-    #> $den
     #>  [1] "g_Alloprevotella"                      
     #>  [2] "g_RC9_gut_group"                       
     #>  [3] "g_Prevotella"                          
@@ -93,7 +76,24 @@ abundance <- cmultRepl(test_data)
     #> [17] "g_Anaerotruncus"                       
     #> [18] "g_Megasphaera"                         
     #> [19] "g_Phascolarctobacterium"               
-    #> [20] "g_Mitsuokella"
+    #> [20] "g_Mitsuokella"                         
+    #> 
+    #> $den
+    #>  [1] "g_Alistipes"                         
+    #>  [2] "g_Barnesiella"                       
+    #>  [3] "g_Bacteroides"                       
+    #>  [4] "g_Odoribacter"                       
+    #>  [5] "g_Parabacteroides"                   
+    #>  [6] "f_Porphyromonadaceae_g_unclassified" 
+    #>  [7] "g_Thalassospira"                     
+    #>  [8] "g_Butyricimonas"                     
+    #>  [9] "g_Anaerostipes"                      
+    #> [10] "g_Paraprevotella"                    
+    #> [11] "f_Erysipelotrichaceae_g_unclassified"
+    #> [12] "g_Streptococcus"                     
+    #> [13] "g_Bifidobacterium"                   
+    #> [14] "g_Blautia"                           
+    #> [15] "g_Collinsella"
 
 ## Regression analysis
 
@@ -150,6 +150,21 @@ nb_2$nb$b1
 #> [13] "g_Escherichia-Shigella"
 ```
 
+Heatmap:
+
+``` r
+heatmap_with_split(abundance = abundance,
+                   metadata = HIV, 
+                   formula = ~ MSM + HIV_Status, 
+                   balance = nb_2$nb$b1,
+                   show_samp_names = F,
+                   num_name = "taxa_MSM",
+                   den_name = "taxa_nonMSM",
+                   others_name = "not assosiated with MSM")
+```
+
+<img src="man/figures/README-lm heatmap-1.png" width="100%" />
+
 ## Interpretation of the SVM results
 
 ``` r
@@ -164,39 +179,38 @@ nb_3$nb$b1
 #> $num
 #>  [1] "f_Ruminococcaceae_g_unclassified"    
 #>  [2] "g_Bacteroides"                       
-#>  [3] "g_Succinivibrio"                     
-#>  [4] "g_Subdoligranulum"                   
-#>  [5] "f_Erysipelotrichaceae_g_unclassified"
+#>  [3] "g_Subdoligranulum"                   
+#>  [4] "f_Erysipelotrichaceae_g_unclassified"
+#>  [5] "g_Alloprevotella"                    
 #>  [6] "g_Alistipes"                         
-#>  [7] "g_Alloprevotella"                    
-#>  [8] "o_Clostridiales_g_unclassified"      
-#>  [9] "g_Blautia"                           
-#> [10] "g_Anaerovibrio"                      
-#> [11] "f_Defluviitaleaceae_g_Incertae_Sedis"
-#> [12] "f_Rikenellaceae_g_unclassified"      
-#> [13] "g_Megasphaera"                       
-#> [14] "g_Solobacterium"                     
-#> [15] "g_Escherichia-Shigella"              
-#> [16] "o_NB1-n_g_unclassified"              
-#> [17] "g_Odoribacter"                       
-#> [18] "g_Anaerotruncus"                     
+#>  [7] "g_Succinivibrio"                     
+#>  [8] "g_Blautia"                           
+#>  [9] "g_Odoribacter"                       
+#> [10] "f_Defluviitaleaceae_g_Incertae_Sedis"
+#> [11] "g_Megasphaera"                       
+#> [12] "g_Solobacterium"                     
+#> [13] "g_Anaerovibrio"                      
+#> [14] "o_Clostridiales_g_unclassified"      
+#> [15] "g_Bifidobacterium"                   
+#> [16] "f_Rikenellaceae_g_unclassified"      
+#> [17] "o_NB1-n_g_unclassified"              
 #> 
 #> $den
-#>  [1] "f_Ruminococcaceae_g_Incertae_Sedis"      
-#>  [2] "g_Butyricimonas"                         
+#>  [1] "g_Butyricimonas"                         
+#>  [2] "f_Ruminococcaceae_g_Incertae_Sedis"      
 #>  [3] "g_Oribacterium"                          
 #>  [4] "g_Streptococcus"                         
-#>  [5] "f_vadinBB60_g_unclassified"              
-#>  [6] "g_RC9_gut_group"                         
-#>  [7] "g_Dialister"                             
+#>  [5] "g_Dialister"                             
+#>  [6] "g_Coprococcus"                           
+#>  [7] "g_Anaeroplasma"                          
 #>  [8] "f_Peptostreptococcaceae_g_Incertae_Sedis"
-#>  [9] "g_Dorea"                                 
-#> [10] "g_Thalassospira"                         
-#> [11] "g_Anaeroplasma"                          
-#> [12] "f_Erysipelotrichaceae_g_Incertae_Sedis"  
-#> [13] "g_Coprococcus"                           
-#> [14] "g_Elusimicrobium"                        
-#> [15] "g_Brachyspira"
+#>  [9] "g_RC9_gut_group"                         
+#> [10] "g_Paraprevotella"                        
+#> [11] "f_vadinBB60_g_unclassified"              
+#> [12] "g_Brachyspira"                           
+#> [13] "c_Alphaproteobacteria_g_unclassified"    
+#> [14] "g_Dorea"                                 
+#> [15] "g_Faecalibacterium"
 ```
 
 ## Interpretation of the LDA results
@@ -239,7 +253,7 @@ abundance <- cmultRepl(counts_filt)
 #> No. adjusted imputations:  866
 
 meta <- HFD[, c("sample_id", "subject_id", "group")]
-pairs <- dcast(meta, subject_id ~ group, value.var = "sample_id")
+pairs <- reshape2::dcast(meta, subject_id ~ group, value.var = "sample_id")
 
 nb_5 <- nb_shift(abundance = abundance,
                  samp_1 = pairs$after[1],
