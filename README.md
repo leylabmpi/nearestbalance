@@ -23,7 +23,7 @@ if (! "balance" %in% installed.packages()){
 Install the package:
 
 ``` r
-devtools::install_bitbucket("knomics/nearestbalance")  
+Rscript -e 'devtools::install_github("leylabmpi/nearestbalance")'
 ```
 
 ## Quick start guide
